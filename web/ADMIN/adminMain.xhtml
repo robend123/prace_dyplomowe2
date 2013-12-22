@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:growl id="growl1" showDetail="false" />
+        <h:form id="tableForm">
+            <p:dataTable id="multiUsers" var="user" value="#{userController.administratorsList}" 
+                         paginator="true" rows="10"  
+                         rowKey="#{user.userId}"    selection="#{userController.selectedUsers}">  
+
+                <f:facet name="header">  
+                    Lista Administratorów  
+                </f:facet>  
+
+                <p:column selectionMode="multiple" style="width:2%" />  
+
+                <p:column headerText="ID" style="width:25%">  
+                    #{user.userId}  
+                </p:column>  
+
+                <p:column headerText="Imię" style="width:25%">  
+                    #{user.firstName}  
+                </p:column>  
+
+                <p:column headerText="Nazwisko" style="width:24%">  
+                    #{user.lastName}  
+                </p:column>  
+
+                <p:column headerText="E-mail" style="width:24%">  
+                    #{user.email}  
+                </p:column>  
+            </p:dataTable>
+        </h:form>
+        <h:form id="addUserForm"> 
+            <p:commandButton id="addUserButton" type="button" value="Add User" onclick="dlg.show();" />  
+
+            <p:dialog header="Wprowadź dane" widgetVar="dlg" resizable="false">  
+
+
+                <h:panelGrid columns="2" style="margin-bottom:10px">  
+                    <h:outputLabel for="firstname" value="Imię:" />  
+                    <p:inputText id="firstname" value="#{userController.entityUser.firstName}" required="true" 
+                                 requiredMessage="Podaj imię"/>  
+                    <h:outputLabel for="lastname" value="Nazwisko:" />  
+                    <p:inputText id="lastname" value="#{userController.entityUser.lastName}" required="true" 
+                                 requiredMessage="Podaj nazwisko"/> 
+                    <h:outputLabel for="login" value="Login:" />  
+                    <p:inputText id="login" value="#{userController.entityUser.login}" required="true" 
+                                 requiredMessage="Podaj login"/> 
+                    <h:outputLabel for="password" value="Hasło:" />  
+                    <p:inputText id="password" value="#{userController.entityUser.password}" required="true" 
+                                 requiredMessage="Podaj hasło"/> 
+                    <h:outputLabel for="licence" value="Rola:" />
+                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}">   
+                        <f:selectItem itemLabel="administrator" itemValue="administrator" />  
+                        <f:selectItem itemLabel="student" itemValue="student" />  
+                        <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
+                    </p:selectOneMenu>
+                </h:panelGrid>  
+
+                <p:commandButton id="submitButton" value="Submit" update=":tableForm:multiUsers" ajax="false" action="#{userController.saveUser()}"/>  
+            </p:dialog>
+        </h:form>  
+    </h:body>
+</html>
+

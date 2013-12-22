@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 9, 2013 1:55:34 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="entity.Users" table="users" schema="public">
+        <id name="userId" type="long">
+            <column name="user_id" />
+            <generator class="identity" />
+        </id>
+        <property name="login" type="string">
+            <column name="login" length="30" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="30" not-null="true" />
+        </property>
+        <property name="licence" type="string">
+            <column name="licence" length="20" not-null="true" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="first_name" length="16" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="32" not-null="true" />
+        </property>
+        <property name="maxThesis" type="java.lang.Integer">
+            <column name="max_thesis" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="32" />
+        </property>
+        <set name="thesises" inverse="true">
+            <key>
+                <column name="advisor_id" not-null="true" />
+            </key>
+            <one-to-many class="entity.Thesis" />
+        </set>
+    </class>
+</hibernate-mapping>

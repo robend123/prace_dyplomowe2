@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="form5">
+            <p:dataTable id="multiUncofirmedThesis" var="thesis" value="#{thesisController.createUnconfirmedThesisList()}" 
+                         rowKey="#{thesis.thesisId}" selection="#{adminController.selectedThesis}" paginator="true" rows="6"  
+                         >  
+
+                <f:facet name="header">  
+                    Lista tematów do potwierdzenia  
+                </f:facet>  
+
+                <p:column selectionMode="multiple" style="width:2%" />
+
+                <p:column headerText="Id tematu" style="width:24%">  
+                    #{thesis.thesisId}  
+                </p:column>  
+
+                <p:column headerText="Temat" style="width:24%">  
+                    #{thesis.title}  
+                </p:column>  
+
+                <p:column headerText="Zgłoszony przez" style="width:24%">  
+                    #{thesis.users.firstName} #{thesis.users.lastName}
+                </p:column>
+
+                <p:column headerText="Opis" style="width:24%">  
+                    <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":form5:description"  
+                                   actionListener="#{adminController.setDescription()}" onclick="descriptionDialog.show();">
+                        <f:param name="thesisId" value="#{thesis.thesisId}"/>
+                    </p:commandButton>
+
+                </p:column> 
+
+                <f:facet name="footer">  
+                    <p:commandButton id="multiViewButton" value="Zatwierdź wybrane" icon="ui-icon-circle-check" update=":form5:multiUncofirmedThesis"  
+                                     action="#{adminController.confirmThesis()}"/>  
+                </f:facet>
+            </p:dataTable>
+            
+        
+
+            <p:dialog id="descriptionDialog" width="300" header="Opis tematu" 
+                      widgetVar="descriptionDialog" resizable="true" hideEffect="fold" showEffect="scale">
+
+                <h:outputText id="description" value="#{adminController.thesisToDisplay.description}" />
+                
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+
+ <!--   <p:dialog id="multiDialog" header="thesis detail" widgetVar="multiThesisDialog"  
+                      height="300" showEffect="fade" hideEffect="explode">  
+
+               <p:dataList id="displayMulti" value="#{adminController.selectedThesis}" var="selectedThesis">  
+                    Model:#{selectedThesis.description} , Year:   
+                </p:dataList>  
+                 
+
+            </p:dialog> -->
