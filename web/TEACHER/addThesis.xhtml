@@ -1,50 +1,91 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>Facelet Title</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Dodawanie Tematu</title>
+        <style>.ui-panel
+            {
+                border: none;
+            }
+            .ui-datatable{
+                font-size: 1.1em;
+            }
+            .szok{
+                font-family: Candara;
+            }
+        </style>
     </h:head>
     <h:body>
-        <h:form id="selectForm" style="width: 60%">
-            <p:dataTable id="specialization" var="specialization" value="#{specializationController.createSpecializationList()}" rowKey="#{specialization.specializationId}"  
-                        selection="#{thesisController.selectedSpecialization}" selectionMode="single">  
-
-                <f:facet name="header">  
-                    Wybierz kierunek dla którego chcesz dodać temat  
-                </f:facet>  
-
-                <p:column headerText="ID">  
-                    #{specialization.specializationId}  
-                </p:column>  
-
-                <p:column headerText="Nazwa">  
-                    #{specialization.name}  
-                </p:column>  
-
-                <p:column headerText="Tryb studiów" >  
-                    #{specialization.process}  
-                </p:column>  
-
-                <p:column headerText="Stopień studiów">  
-                    #{specialization.degree}  
-                </p:column>  
-
-            </p:dataTable> 
+        <p:growl showDetail="false"/>
+        <h:form id="page" style="width: 880px ;margin: 0px auto;">
+            <p:panel style="height: 140px;" id="header">
+                <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
+                    <p:graphicImage value="/images/logo2.jpg" style='float: left'/>
+                    <div style="border: none; float: right">
+                        <p:spacer height="110px" />
+                        <span style="font-family: Candara; font-size: 20px;">Zalogowany jako: #{loginController.user.firstName}  #{loginController.user.lastName}</span>
+                        <p:spacer width="10px" />
+                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml" ajax="false" immediate="true"/>
+                    </div>
+                </p:panel>
+            </p:panel>
+            <p:panel style=" margin: 0px auto; padding: 0px auto;" >
+                <p:separator style="width: 850px;"/>
+                <p:menubar style="width: 70%">
+                    <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
+                    <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
+                    <p:menuitem value="Nauczyciele" url="#" styleClass="szok"/>
+                    <p:menuitem value="Studenci" url="#" styleClass="szok"/>
+                    </p:submenu>
+                    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
+                    <p:menuitem value=" Potwierdź tematy " url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                </p:menubar>
+            </p:panel>
             
-            <h:panelGrid id="panel" columns="2" cellpadding="5" >  
-                <h:outputLabel for="title" value="Tytuł" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
-                <p:inputText value="#{thesisController.thesis.title}" requiredMessage="Prosze podać Tytuł"  
-                             id="title" required="true" label="title" />
-                
-                <h:outputLabel for="description" value="Opis" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
-                <p:inputTextarea cols="100" value="#{thesisController.thesis.description}" requiredMessage="Prosze wpisać opis"  
-                                 id="desription" required="true" label="description" maxlength="999" autoResize="false" rows="6" />
-                
-            </h:panelGrid>
-            <p:commandButton id="saveThesisButton" value="Zapisz"  ajax="false" action="#{thesisController.saveThesis()}"/>
+            <h:form id="selectForm" style="width: 850px; margin: 0px auto;">
+                <p:dataTable id="specialization" var="specialization" value="#{specializationController.createSpecializationList()}" rowKey="#{specialization.specializationId}"  
+                             selection="#{thesisController.selectedSpecialization}" selectionMode="single" style="font-size: 1em;">  
+
+                    <f:facet name="header">  
+                        Wybierz kierunek dla którego chcesz dodać temat  
+                    </f:facet>  
+
+                    <p:column headerText="ID">  
+                        #{specialization.specializationId}  
+                    </p:column>  
+
+                    <p:column headerText="Nazwa">  
+                        #{specialization.name}  
+                    </p:column>  
+
+                    <p:column headerText="Tryb studiów" >  
+                        #{specialization.process}  
+                    </p:column>  
+
+                    <p:column headerText="Stopień studiów">  
+                        #{specialization.degree}  
+                    </p:column>  
+
+                </p:dataTable> 
+
+                <h:panelGrid id="panel" columns="2" cellpadding="5" >  
+                    <h:outputLabel for="title" value="Tytuł" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
+                    <p:inputText value="#{thesisController.thesis.title}" requiredMessage="Prosze podać Tytuł"  
+                                 id="title" required="true" label="title" />
+
+                    <h:outputLabel for="description" value="Opis" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
+                    <p:inputTextarea cols="100" value="#{thesisController.thesis.description}" requiredMessage="Prosze wpisać opis"  
+                                     id="desription" required="true" label="description" maxlength="999" autoResize="false" rows="6" />
+
+                </h:panelGrid>
+                <p:commandButton id="saveThesisButton" value="Zapisz"  ajax="false" action="#{thesisController.saveThesis()}"/>
+            </h:form>
         </h:form>
     </h:body>
 </html>

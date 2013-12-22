@@ -5,64 +5,89 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>Facelet Title</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Facelets Template</title>
+        <style>.ui-panel
+            {
+                border: none;
+            }
+            .szok{
+                font-family: Candara;
+            }
+        </style>
     </h:head>
     <h:body>
-        <h:form id="form5">
-            <p:dataTable id="multiUncofirmedThesis" var="thesis" value="#{thesisController.createUnconfirmedThesisList()}" 
-                         rowKey="#{thesis.thesisId}" selection="#{adminController.selectedThesis}" paginator="true" rows="6"  
-                         >  
+        <p:growl showDetail="false"/>
+        <h:form id="page" style="width: 880px ;margin: 0px auto;">
+            <p:panel style="height: 140px;" id="header">
+                <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
+                    <p:graphicImage value="/images/logo2.jpg" style='float: left'/>
+                    <div style="border: none; float: right">
+                        <p:spacer height="110px" />
+                        <span style="font-family: Candara; font-size: 20px;">Zalogowany jako: #{loginController.user.firstName}  #{loginController.user.lastName}</span>
+                        <p:spacer width="10px" />
+                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml?faces-redirect=true"/>
+                    </div>
+                </p:panel>
+            </p:panel>
+            <p:panel style=" margin: 0px auto; padding: 0px auto;" >
+                <p:separator style="width: 850px;"/>
+                    <p:menubar style="width: 70%">
+                    <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
+                    <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
+                    <p:menuitem value="Nauczyciele" url="#" styleClass="szok"/>
+                    <p:menuitem value="Studenci" url="#" styleClass="szok"/>
+                    </p:submenu>
+                    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
+                    <p:menuitem value=" Potwierdź tematy " url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                </p:menubar>
+            </p:panel>
+                    <p:dataTable id="multiUncofirmedThesis" var="thesis" value="#{thesisController.createUnconfirmedThesisList()}" 
+                                 rowKey="#{thesis.thesisId}" selection="#{adminController.selectedThesis}" paginator="true" rows="6"  
+                                 style="font-size : 1em;">  
 
-                <f:facet name="header">  
-                    Lista tematów do potwierdzenia  
-                </f:facet>  
+                        <f:facet name="header">  
+                            Lista tematów do potwierdzenia  
+                        </f:facet>  
 
-                <p:column selectionMode="multiple" style="width:2%" />
+                        <p:column selectionMode="multiple" style="width:2%" />
 
-                <p:column headerText="Id tematu" style="width:24%">  
-                    #{thesis.thesisId}  
-                </p:column>  
+                        <p:column headerText="Id tematu" style="width:24%">  
+                            #{thesis.thesisId}  
+                        </p:column>  
 
-                <p:column headerText="Temat" style="width:24%">  
-                    #{thesis.title}  
-                </p:column>  
+                        <p:column headerText="Temat" style="width:24%">  
+                            #{thesis.title}  
+                        </p:column>  
 
-                <p:column headerText="Zgłoszony przez" style="width:24%">  
-                    #{thesis.users.firstName} #{thesis.users.lastName}
-                </p:column>
+                        <p:column headerText="Zgłoszony przez" style="width:24%">  
+                            #{thesis.users.firstName} #{thesis.users.lastName}
+                        </p:column>
 
-                <p:column headerText="Opis" style="width:24%">  
-                    <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":form5:description"  
-                                   actionListener="#{adminController.setDescription()}" onclick="descriptionDialog.show();">
-                        <f:param name="thesisId" value="#{thesis.thesisId}"/>
-                    </p:commandButton>
+                        <p:column headerText="Opis" style="width:24%">  
+                            <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":page:description"  
+                                             actionListener="#{adminController.setDescription()}" onclick="descriptionDialog.show();" style="height: 35px">
+                                <f:param name="thesisId" value="#{thesis.thesisId}"/>
+                            </p:commandButton>
 
-                </p:column> 
+                        </p:column> 
 
-                <f:facet name="footer">  
-                    <p:commandButton id="multiViewButton" value="Zatwierdź wybrane" icon="ui-icon-circle-check" update=":form5:multiUncofirmedThesis"  
-                                     action="#{adminController.confirmThesis()}"/>  
-                </f:facet>
-            </p:dataTable>
-            
-        
+                        <f:facet name="footer">  
+                            <p:commandButton id="multiViewButton" value="Zatwierdź wybrane" icon="ui-icon-circle-check" update=":page:multiUncofirmedThesis"  
+                                             action="#{adminController.confirmThesis()}"/>  
+                        </f:facet>
+                    </p:dataTable>
 
-            <p:dialog id="descriptionDialog" width="300" header="Opis tematu" 
-                      widgetVar="descriptionDialog" resizable="true" hideEffect="fold" showEffect="scale">
 
-                <h:outputText id="description" value="#{adminController.thesisToDisplay.description}" />
-                
-            </p:dialog>
+
+                    <p:dialog id="descriptionDialog" width="300" header="Opis tematu" 
+                              widgetVar="descriptionDialog" resizable="true" hideEffect="fold" showEffect="scale">
+
+                        <h:outputText id="description" value="#{adminController.thesisToDisplay.description}" />
+
+                    </p:dialog>
         </h:form>
     </h:body>
 </html>
-
- <!--   <p:dialog id="multiDialog" header="thesis detail" widgetVar="multiThesisDialog"  
-                      height="300" showEffect="fade" hideEffect="explode">  
-
-               <p:dataList id="displayMulti" value="#{adminController.selectedThesis}" var="selectedThesis">  
-                    Model:#{selectedThesis.description} , Year:   
-                </p:dataList>  
-                 
-
-            </p:dialog> -->

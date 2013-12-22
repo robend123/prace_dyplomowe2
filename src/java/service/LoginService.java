@@ -37,7 +37,7 @@ public class LoginService implements ILoginService {
             FacesContext.getCurrentInstance().addMessage(null, msg); 
             
             if (user.getLicence().equalsIgnoreCase("administrator")) {
-                return "ADMIN\\confirmTheses.xhtml";
+                return "ADMIN\\confirmTheses.xhtml?faces-redirect=true";
             } else if (user.getLicence().equalsIgnoreCase("student")) {
                 return "studentMain.xhtml";
             } else if (user.getLicence().equalsIgnoreCase("nauczyciel")) {

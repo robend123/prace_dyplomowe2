@@ -10,6 +10,8 @@ import entity.Users;
 import hibernate.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -28,6 +30,9 @@ public class ThesisService implements IThesisService {
         session.getTransaction().commit();
         session.close();
         HibernateUtil.getSessionFactory().close();
+        FacesMessage msg = null;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodano temat ", null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
     @Override

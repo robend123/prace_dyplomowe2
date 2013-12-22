@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Facelets Template</title>
+        <style>.ui-panel
+            {
+                border: none;
+            }
+            .ui-datatable{
+                font-size: 1em;
+            }
+            .szok{
+                font-family: Candara;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:growl showDetail="false"/>
+        <h:form id="page" style="width: 880px ;margin: 0px auto;">
+            <p:panel style="height: 140px;" id="header">
+                <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
+                    <p:graphicImage value="/images/logo2.jpg" style='float: left'/>
+                    <div style="border: none; float: right">
+                        <p:spacer height="110px" />
+                        <span style="font-family: Candara; font-size: 20px;">Zalogowany jako: #{loginController.user.firstName}  #{loginController.user.lastName}</span>
+                        <p:spacer width="10px" />
+                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml?faces-redirect=true" ajax="false" immediate="true"/>
+                    </div>
+                </p:panel>
+            </p:panel>
+            <p:panel style=" margin: 0px auto; padding: 0px auto;" >
+                <p:separator style="width: 850px"/>
+                <p:menubar style="width: 70%">
+                    <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
+                    <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
+                    <p:menuitem value="Nauczyciele" url="#" styleClass="szok"/>
+                    <p:menuitem value="Studenci" url="#" styleClass="szok"/>
+                    </p:submenu>
+                    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
+                    <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                </p:menubar>
+            </p:panel>
+            <h:form id="tableForm2" style="width: 880px; margin: 0px auto">
+
+
+                <p:dataTable id="multiUsers" var="user" value="#{userController.administratorsList}" 
+                             paginator="true" rows="6"  
+                             rowKey="#{user.userId}"    selection="#{userController.selectedUsers}" editable="true">  
+
+                    <f:facet name="header">  
+                        Lista Administratorów  
+                    </f:facet>  
+                    <p:column selectionMode="multiple" style="width:2%" />  
+
+                    <p:column headerText="ID" style="width:25%;">  
+                        #{user.userId}  
+                    </p:column>  
+
+                    <p:column headerText="Imię" style="width:25%;">  
+
+                        <p:cellEditor>  
+                            <f:facet name="output">  
+                                <h:outputText value="#{user.firstName}" />  
+                            </f:facet>  
+                            <f:facet name="input">  
+                                <p:inputText value="#{user.firstName}" style="width:100%" label="Imię"/>  
+                            </f:facet>  
+                        </p:cellEditor> 
+                    </p:column>  
+
+                    <p:column headerText="Nazwisko" style="width:24%">  
+                        #{user.lastName}  
+                    </p:column>  
+
+                    <p:column headerText="E-mail" style="width:24%">  
+                        #{user.email}  
+                    </p:column> 
+
+                    <p:column headerText="editor" style="width:24%">  
+                        <p:rowEditor/> 
+                    </p:column> 
+                </p:dataTable>
+
+                <h:form id="addUserForm"> 
+                    <p:commandButton id="addUserButton" type="button" value="Add User" onclick="dlg.show();" ajax="false"/>  
+
+                    <p:dialog header="Wprowadź dane" widgetVar="dlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold">  
+
+
+                        <h:panelGrid columns="2" style="margin-bottom:10px">  
+                            <h:outputLabel for="firstname" value="Imię:" />  
+                            <p:inputText id="firstname" value="#{userController.entityUser.firstName}" required="true" 
+                                         requiredMessage="Podaj imię"/>  
+                            <h:outputLabel for="lastname" value="Nazwisko:" />  
+                            <p:inputText id="lastname" value="#{userController.entityUser.lastName}" required="true" 
+                                         requiredMessage="Podaj nazwisko"/> 
+                            <h:outputLabel for="login" value="Login:" />  
+                            <p:inputText id="login" value="#{userController.entityUser.login}" required="true" 
+                                         requiredMessage="Podaj login"/> 
+                            <h:outputLabel for="password" value="Hasło:" />  
+                            <p:inputText id="password" value="#{userController.entityUser.password}" required="true" 
+                                         requiredMessage="Podaj hasło"/> 
+                            <h:outputLabel for="licence" value="Rola:" />
+                            <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}">   
+                                <f:selectItem itemLabel="administrator" itemValue="administrator" />  
+                                <f:selectItem itemLabel="student" itemValue="student" />  
+                                <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
+                            </p:selectOneMenu>
+                        </h:panelGrid>  
+
+                        <p:commandButton id="submitButton" value="Submit" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.saveUser()}"/>  
+                    </p:dialog>
+                </h:form>
+            </h:form>
+        </h:form>
+    </h:body>
+</html>
+
