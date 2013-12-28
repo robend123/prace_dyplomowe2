@@ -4,12 +4,16 @@
  */
 package controller;
 
+import entity.Thesis;
 import entity.Users;
+import hibernate.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.hibernate.Session;
 import service.IUserCRUDService;
 import service.UserCRUDService;
 
@@ -25,6 +29,16 @@ public class UserController {
     private IUserCRUDService userCRUD = new UserCRUDService();
     private List<Users> administratorsList = new ArrayList<Users>();
     private Users[] selectedUsers;
+    private Users preparedUser = new Users();
+    //private Users userToDelete = new Users();
+    
+    public Users getPreparedUser() {
+        return preparedUser;
+    }
+
+    public void setUserToEdit(Users preparedUser) {
+        this.preparedUser = preparedUser;
+    }
 
     public Users getEntityUser() {
         return entityUser;
@@ -69,7 +83,33 @@ public class UserController {
         userCRUD.saveUser(entityUser);
         this.entityUser = new Users();
     }
-    public void editUser(){
-        userCRUD.updateUser(selectedUsers);
+    public void updateOneUser(){
+        userCRUD.updateOneUser(preparedUser);
+        this.preparedUser=new Users();
+    }
+    public List<Users> makeStudentsList(){
+        return userCRUD.findAllStudents();
+    }
+    public List<Users> makeTeachersList(){
+        return userCRUD.findAllTeachers();
+    }
+    
+    public void prepareUserToAction(){
+        Users user = new Users();
+        String ids= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("userId").toString();
+        long id= Long.parseLong(ids);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        user=(Users)session.get(Users.class,id);
+        
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+        this.preparedUser=user;
+        //this.userToEdit.setFirstName("blblb");
+    }
+    public void deleteOneUser(){
+        userCRUD.deleteOneUser(preparedUser);
+        this.preparedUser=new Users();
     }
 }

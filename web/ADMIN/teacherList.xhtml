@@ -50,12 +50,12 @@
             <h:form id="tableForm2" style="width: 880px; margin: 0px auto">
 
 
-                <p:dataTable id="multiUsers" var="user" value="#{userController.administratorsList}" 
+                <p:dataTable id="multiUsers" var="user" value="#{userController.makeTeachersList()}" 
                              paginator="true" rows="6"  
                              rowKey="#{user.userId}"    selection="#{userController.selectedUsers}" editable="true">  
 
                     <f:facet name="header">  
-                        Lista Administratorów  
+                        Lista Nauczycieli  
                     </f:facet>  
                     <p:column selectionMode="multiple" style="width:2%" />  
 

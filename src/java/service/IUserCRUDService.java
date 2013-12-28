@@ -14,6 +14,10 @@ import java.util.List;
 public interface IUserCRUDService {
 
     List<Users> findAllAdministrators();
+    List<Users> findAllStudents();
+    List<Users> findAllTeachers();
     void saveUser(Users user);
-    void updateUser(Users[] selectedUsers);
+    void updateOneUser(Users userToUpdate);
+
+    public void deleteOneUser(Users preparedUser);
 }
