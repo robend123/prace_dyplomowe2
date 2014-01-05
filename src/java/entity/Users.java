@@ -1,5 +1,5 @@
 package entity;
-// Generated Dec 9, 2013 1:55:34 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 5, 2014 6:06:06 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -19,7 +19,9 @@ public class Users  implements java.io.Serializable {
      private String lastName;
      private Integer maxThesis;
      private String email;
+     private Set thesisReservations = new HashSet(0);
      private Set thesises = new HashSet(0);
+     private Set thesises_1 = new HashSet(0);
 
     public Users() {
     }
@@ -33,7 +35,7 @@ public class Users  implements java.io.Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    public Users(long userId, String login, String password, String licence, String firstName, String lastName, Integer maxThesis, String email, Set thesises) {
+    public Users(long userId, String login, String password, String licence, String firstName, String lastName, Integer maxThesis, String email, Set thesisReservations, Set thesises, Set thesises_1) {
        this.userId = userId;
        this.login = login;
        this.password = password;
@@ -42,7 +44,9 @@ public class Users  implements java.io.Serializable {
        this.lastName = lastName;
        this.maxThesis = maxThesis;
        this.email = email;
+       this.thesisReservations = thesisReservations;
        this.thesises = thesises;
+       this.thesises_1 = thesises_1;
     }
    
     public long getUserId() {
@@ -101,12 +105,26 @@ public class Users  implements java.io.Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+    public Set getThesisReservations() {
+        return this.thesisReservations;
+    }
+    
+    public void setThesisReservations(Set thesisReservations) {
+        this.thesisReservations = thesisReservations;
+    }
     public Set getThesises() {
         return this.thesises;
     }
     
     public void setThesises(Set thesises) {
         this.thesises = thesises;
+    }
+    public Set getThesises_1() {
+        return this.thesises_1;
+    }
+    
+    public void setThesises_1(Set thesises_1) {
+        this.thesises_1 = thesises_1;
     }
 
 

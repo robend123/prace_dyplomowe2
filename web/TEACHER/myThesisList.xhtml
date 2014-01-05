@@ -32,7 +32,7 @@
         </script>
     </h:head>
     <h:body>
-        <p:growl showDetail="false"/>
+        <p:growl showDetail="false" autoUpdate="true"/>
         <h:form id="page" style="width: 880px ;margin: 0px auto;">
             <p:panel style="height: 140px;" id="header">
                 <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
@@ -80,6 +80,14 @@
                     </p:commandButton>
 
                 </p:column>
+                <p:column headerText="Rezerwacje" style="width:24%">  
+                    <p:commandButton id="reservButton" value="Rezerwuj" icon="ui-icon-info"   
+                                     onclick="reservDialog.show();" style="height: 35px"
+                                     actionListener="#{reservationController.setThesisForReservation()}">
+                        <f:param name="thesisId" value="#{thesis.thesisId}"/>
+                    </p:commandButton>
+
+                </p:column>
             </p:dataTable>
 
             <p:dialog id="descriptionDialog" width="300" header="Opis tematu" 
@@ -88,6 +96,26 @@
                 <h:outputText id="description" value="#{thesisController.thesisToDisplay.description}" />
 
             </p:dialog>
+            
+            <p:dialog id="reservDialog" widgetVar="reservDialog" modal="true" width="300" header="Rezerwacja" resizable="true" hideEffect="fold"
+                      showEffect="scale">
+                <h:outputLabel for="indexNumber" value="Nr albumu studenta: "/>
+                <p:inputText id="indexNumber" value="#{reservationController.indexNumber}" required="true"
+                             requiredMessage="Podaj numer albumu" label="indexNumber"/>
+                    
+                <p:commandButton id="nextButton" value="Dalej" onclick="reservDialog.hide();" action="#{reservationController.findUserByIndexNumber()}" oncomplete="reservConfirmationDialog.show();" update=":tableForm2:reservConfirmationDialog"/>
+                <p:commandButton id="cancelButton" value="Anuluj" onclick="reservDialog.hide();"/>
+                
+            </p:dialog>
+            
+            <p:confirmDialog id="reservConfirmationDialog" message="Potwierdź rezerwację dla : #{reservationController.user.firstName} #{reservationController.user.lastName}" closable="false"
+                             header="Potwierdzenie" severity="info" widgetVar="reservConfirmationDialog">
+                
+                
+                <p:commandButton value="Tak" oncomplete="reservConfirmationDialog.hide()" action="#{reservationController.makeReservation()}"/>
+                <p:commandButton value="Nie" onclick="reservConfirmationDialog.hide();" type="button" />
+                
+            </p:confirmDialog>
 
         </h:form>
     </h:body>

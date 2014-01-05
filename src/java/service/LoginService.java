@@ -41,7 +41,7 @@ public class LoginService implements ILoginService {
             } else if (user.getLicence().equalsIgnoreCase("student")) {
                 return "studentMain.xhtml";
             } else if (user.getLicence().equalsIgnoreCase("nauczyciel")) {
-                return "TEACHER\\addThesis.xhtml";
+                return "ADMIN\\confirmTheses.xhtml";
             }
             // user= new Users();
            return null;

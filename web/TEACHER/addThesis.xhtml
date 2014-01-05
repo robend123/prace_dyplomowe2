@@ -22,7 +22,7 @@
         </style>
     </h:head>
     <h:body>
-        <p:growl showDetail="false"/>
+        <p:growl id="inf" showDetail="false"/>
         <h:form id="page" style="width: 880px ;margin: 0px auto;">
             <p:panel style="height: 140px;" id="header">
                 <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
@@ -47,7 +47,7 @@
                     <p:menuitem value=" Potwierdź tematy " url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
                 </p:menubar>
             </p:panel>
-            
+        </h:form>
             <h:form id="selectForm" style="width: 850px; margin: 0px auto;">
                 <p:dataTable id="specialization" var="specialization" value="#{specializationController.createSpecializationList()}" rowKey="#{specialization.specializationId}"  
                              selection="#{thesisController.selectedSpecialization}" selectionMode="single" style="font-size: 1em;">  
@@ -84,9 +84,9 @@
                                      id="desription" required="true" label="description" maxlength="999" autoResize="false" rows="6" />
 
                 </h:panelGrid>
-                <p:commandButton id="saveThesisButton" value="Zapisz"  ajax="false" action="#{thesisController.saveThesis()}"/>
+                <p:commandButton id="saveThesisButton" value="Zapisz"  action="#{thesisController.saveThesis()}" update=":inf"/>
             </h:form>
-        </h:form>
+        
     </h:body>
 </html>
 

@@ -1,5 +1,5 @@
 package entity;
-// Generated Dec 9, 2013 1:55:34 PM by Hibernate Tools 3.2.1.GA
+// Generated Jan 5, 2014 6:06:06 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -16,6 +16,7 @@ public class Specialization  implements java.io.Serializable {
      private String name;
      private String process;
      private Set thesises = new HashSet(0);
+     private Set thesises_1 = new HashSet(0);
 
     public Specialization() {
     }
@@ -27,12 +28,13 @@ public class Specialization  implements java.io.Serializable {
         this.name = name;
         this.process = process;
     }
-    public Specialization(long specializationId, String degree, String name, String process, Set thesises) {
+    public Specialization(long specializationId, String degree, String name, String process, Set thesises, Set thesises_1) {
        this.specializationId = specializationId;
        this.degree = degree;
        this.name = name;
        this.process = process;
        this.thesises = thesises;
+       this.thesises_1 = thesises_1;
     }
    
     public long getSpecializationId() {
@@ -69,6 +71,13 @@ public class Specialization  implements java.io.Serializable {
     
     public void setThesises(Set thesises) {
         this.thesises = thesises;
+    }
+    public Set getThesises_1() {
+        return this.thesises_1;
+    }
+    
+    public void setThesises_1(Set thesises_1) {
+        this.thesises_1 = thesises_1;
     }
 
 

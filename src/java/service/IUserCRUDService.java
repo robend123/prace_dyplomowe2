@@ -18,6 +18,6 @@ public interface IUserCRUDService {
     List<Users> findAllTeachers();
     void saveUser(Users user);
     void updateOneUser(Users userToUpdate);
-
+    Users findUserByIndexNumber(long indexNumber);
     public void deleteOneUser(Users preparedUser);
 }

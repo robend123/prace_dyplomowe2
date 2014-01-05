@@ -96,4 +96,19 @@ public class UserCRUDService implements IUserCRUDService {
         session.close();
         HibernateUtil.getSessionFactory().close();
     }
+
+    @Override
+    public Users findUserByIndexNumber(long indexNumber) {
+        Users user = new Users();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
+        user= (Users) session.load(Users.class,indexNumber);
+        
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+        return user;
+        
+    }
 }
