@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
@@ -13,10 +13,23 @@
             {
                 border: none;
             }
+            .ui-datatable{
+                font-size: 1em;
+            }
             .szok{
                 font-family: Candara;
             }
         </style>
+        <script type="text/javascript">
+            function hideOrShow() {
+                var select = document.getElementById("addUserForm:licence");
+                var obj = document.getElementById("addUserForm:indexNumber");
+                if (true) {
+                    obj.style.display = "none";
+                }
+            }
+
+        </script>
     </h:head>
     <h:body>
         <p:growl showDetail="false"/>
@@ -28,58 +41,46 @@
                         <p:spacer height="110px" />
                         <span style="font-family: Candara; font-size: 20px;">Zalogowany jako: #{loginController.user.firstName}  #{loginController.user.lastName}</span>
                         <p:spacer width="10px" />
-                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml?faces-redirect=true"/>
+                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml?faces-redirect=true" ajax="false" immediate="true"/>
                     </div>
                 </p:panel>
             </p:panel>
             <p:panel style=" margin: 0px auto; padding: 0px auto;" >
-                <p:separator style="width: 850px;"/>
+                <p:separator style="width: 850px"/>
                 <p:menubar style="width: 70%">
                     <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
                         <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
-                        <p:menuitem value="Nauczyciele" url="#" styleClass="szok"/>
-                        <p:menuitem value="Studenci" url="#" styleClass="szok"/>
+                        <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
+                        <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
                     </p:submenu>
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
-                    <p:menuitem value=" Potwierdź tematy " url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                    <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
                 </p:menubar>
             </p:panel>
-            <p:dataTable id="multiUncofirmedThesis" var="thesis" value="#{thesisController.createUnconfirmedThesisList()}" 
-                         rowKey="#{thesis.thesisId}" selection="#{thesisController.selectedThesis}" paginator="true" rows="6"  
-                         style="font-size : 1em;">  
+        </h:form>
+        <h:form id="tableForm2" style="width: 880px; margin: 0px auto">
+
+
+            <p:dataTable id="multiUsers" var="thesis" value="#{thesisController.createConfirmedTeacherThesisList()}" 
+                         paginator="true" rows="6"  
+                         rowKey="#{thesis.thesisId}"    selection="#{thesisController.selectedThesis}">  
 
                 <f:facet name="header">  
-                    Lista tematów do potwierdzenia  
+                    Moje tematy
                 </f:facet>  
+                <p:column selectionMode="multiple" style="width:2%" />  
 
-                <p:column selectionMode="multiple" style="width:2%" />
-
-                <p:column headerText="Id tematu" style="width:24%">  
+                <p:column headerText="ID" style="width:10%;">  
                     #{thesis.thesisId}  
                 </p:column>  
-
-                <p:column headerText="Temat" style="width:24%">  
-                    #{thesis.title}  
-                </p:column>  
-
-                <p:column headerText="Zgłoszony przez" style="width:24%;">  
-                    #{thesis.users.firstName} #{thesis.users.lastName}
-                </p:column>
-
                 <p:column headerText="Opis" style="width:24%">  
-                    <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":page:description"  
+                    <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":tableForm2:description"  
                                      actionListener="#{thesisController.setDescription()}" onclick="descriptionDialog.show();" style="height: 35px">
                         <f:param name="thesisId" value="#{thesis.thesisId}"/>
                     </p:commandButton>
 
-                </p:column> 
-                <f:facet name="footer">  
-                    <p:commandButton id="multiViewButton" value="Zatwierdź wybrane" icon="ui-icon-circle-check" update=":page:multiUncofirmedThesis"  
-                                     action="#{thesisController.confirmThesis()}"/>  
-                </f:facet>
+                </p:column>
             </p:dataTable>
-
-
 
             <p:dialog id="descriptionDialog" width="300" header="Opis tematu" 
                       widgetVar="descriptionDialog" resizable="true" hideEffect="fold" showEffect="scale">
@@ -87,6 +88,8 @@
                 <h:outputText id="description" value="#{thesisController.thesisToDisplay.description}" />
 
             </p:dialog>
+
         </h:form>
     </h:body>
 </html>
+

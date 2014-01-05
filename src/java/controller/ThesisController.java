@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import service.IThesisService;
@@ -29,9 +30,24 @@ public class ThesisController {
     private IThesisService thesisService = new ThesisService();
     private Specialization selectedSpecialization;
     private LoginController loginController = new LoginController();
-  
+    private List<Thesis> selectedThesis= new ArrayList<Thesis>();
+    private Thesis thesisToDisplay = new Thesis();
 
-    
+    public Thesis getThesisToDisplay() {
+        return thesisToDisplay;
+    }
+
+    public void setThesisToDisplay(Thesis thesisToDisplay) {
+        this.thesisToDisplay = thesisToDisplay;
+    }
+
+    public List<Thesis> getSelectedThesis() {
+        return selectedThesis;
+    }
+
+    public void setSelectedThesis(List<Thesis> selectedThesis) {
+        this.selectedThesis = selectedThesis;
+    }
 
     public Specialization getSelectedSpecialization() {
         return selectedSpecialization;
@@ -80,5 +96,15 @@ public class ThesisController {
     }
     public List<Thesis> createUnconfirmedThesisList(){
         return thesisService.createUnconfirmedThesisList();
+    }
+    public List<Thesis> createConfirmedTeacherThesisList(){
+        return thesisService.createConfirmedTeacherThesisList(loginController.getUser());
+    }
+    
+    public void setDescription(){
+        this.thesisToDisplay=thesisService.setDescription();
+    }
+    public void confirmThesis(){
+        thesisService.confirmThesis(selectedThesis);
     }
 }

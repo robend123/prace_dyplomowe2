@@ -5,6 +5,7 @@
 package service;
 
 import entity.Thesis;
+import entity.Users;
 import java.util.List;
 
 /**
@@ -15,4 +16,7 @@ public interface IThesisService {
 
     void saveThesis(Thesis thesis);
     List<Thesis> createUnconfirmedThesisList();
+    List<Thesis> createConfirmedTeacherThesisList(Users user);
+    Thesis setDescription();
+    void confirmThesis(List<Thesis> selectedThesis);
 }

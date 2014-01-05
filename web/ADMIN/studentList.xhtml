@@ -20,6 +20,16 @@
                 font-family: Candara;
             }
         </style>
+        <script type="text/javascript">
+            function hideOrShow() {
+                var select = document.getElementById("addUserForm:licence");
+                var obj = document.getElementById("addUserForm:indexNumber");
+                if (true) {
+                    obj.style.display = "none";
+                }
+            }
+
+        </script>
     </h:head>
     <h:body>
         <p:growl showDetail="false"/>
@@ -115,7 +125,7 @@
                     <p:inputText id="password" value="#{userController.entityUser.password}" required="true" 
                                  requiredMessage="Podaj hasło"/> 
                     <h:outputLabel for="licence" value="Rola:" />
-                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}">   
+                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}" onchange="hideOrShow();">   
                         <f:selectItem itemLabel="administrator" itemValue="administrator" />  
                         <f:selectItem itemLabel="student" itemValue="student" />  
                         <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
@@ -149,12 +159,13 @@
                         <f:selectItem itemLabel="student" itemValue="student" />  
                         <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
                     </p:selectOneMenu>
+
                 </h:panelGrid>  
 
                 <p:commandButton id="updateButton" value="Aktualizuj" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.updateOneUser()}"/>  
             </p:dialog>
         </h:form>
-        
+
         <h:form id="deleteForm">
             <p:confirmDialog message="Czy jesteś pewnien" closable="false"
                              header="Potwierdzenie" severity="alert" widgetVar="confirmDlg">

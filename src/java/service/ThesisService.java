@@ -53,4 +53,54 @@ public class ThesisService implements IThesisService {
 
         return unconfirmedThesisList;
     }
+
+    @Override
+    public List<Thesis> createConfirmedTeacherThesisList(Users user) {
+        List<Thesis> teacherThesisList = new ArrayList<Thesis>();
+        long userIds=user.getUserId();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        
+        //Query query = session.createQuery("select thesis.thesisId, thesis.title, thesis.users.firstName, thesis.users.lastName, thesis.description from Thesis thesis");
+        Query query = session.createQuery("select thesis from Thesis thesis where thesis.users.userId=:userIds and thesis.confirmed=true").setLong("userIds", userIds);
+
+        
+        teacherThesisList = query.list();
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+
+        return teacherThesisList;
+    }
+    @Override
+    public Thesis setDescription() {
+         Thesis thesisToDisplay = new Thesis();
+        String ids= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("thesisId").toString();
+        long id= Long.parseLong(ids);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        thesisToDisplay=(Thesis)session.get(Thesis.class,id);
+        
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+                
+        return thesisToDisplay;
+    }
+    @Override
+    public void confirmThesis(List<Thesis> selectedThesis){
+      //  List<Thesis> unconfirmedThesisList = new ArrayList<Thesis>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        // session.save(user);
+        for(Thesis thesis: selectedThesis){
+            thesis.setConfirmed(true);
+            session.update(thesis);
+        }
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+    }
 }

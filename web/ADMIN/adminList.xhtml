@@ -20,6 +20,16 @@
                 font-family: Candara;
             }
         </style>
+        <script type="text/javascript">
+            function hideOrShow() {
+                var select = document.getElementById("addUserForm:licence");
+                var obj = document.getElementById("addUserForm:indexNumber");
+                if (true) {
+                    obj.style.display = "none";
+                }
+            }
+
+        </script>
     </h:head>
     <h:body>
         <p:growl showDetail="false"/>
@@ -39,86 +49,130 @@
                 <p:separator style="width: 850px"/>
                 <p:menubar style="width: 70%">
                     <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
-                    <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
-                    <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
-                    <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
+                        <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
+                        <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
+                        <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
                     </p:submenu>
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                     <p:menuitem value=" Moje tematy" url="/TEACHER/myThesisList.xhtml" styleClass="szok" icon="ui-icon-check"/>
                 </p:menubar>
             </p:panel>
-            <h:form id="tableForm2" style="width: 880px; margin: 0px auto">
+        </h:form>
+        <h:form id="tableForm2" style="width: 880px; margin: 0px auto">
 
 
-                <p:dataTable id="multiUsers" var="user" value="#{userController.administratorsList}" 
-                             paginator="true" rows="6"  
-                             rowKey="#{user.userId}"    selection="#{userController.selectedUsers}" editable="true">  
+            <p:dataTable id="multiUsers" var="user" value="#{userController.administratorsList}" 
+                         paginator="true" rows="6"  
+                         rowKey="#{user.userId}"    selection="#{userController.selectedUsers}">  
 
-                    <f:facet name="header">  
-                        Lista Administratorów  
-                    </f:facet>  
-                    <p:column selectionMode="multiple" style="width:2%" />  
+                <f:facet name="header">  
+                    Lista Administratorów
+                </f:facet>  
+                <p:column selectionMode="multiple" style="width:2%" />  
 
-                    <p:column headerText="ID" style="width:25%;">  
-                        #{user.userId}  
-                    </p:column>  
+                <p:column headerText="ID" style="width:10%;">  
+                    #{user.userId}  
+                </p:column>  
 
-                    <p:column headerText="Imię" style="width:25%;">  
+                <p:column headerText="Imię" style="width:25%;">  
+                    #{user.firstName} 
 
-                        <p:cellEditor>  
-                            <f:facet name="output">  
-                                <h:outputText value="#{user.firstName}" />  
-                            </f:facet>  
-                            <f:facet name="input">  
-                                <p:inputText value="#{user.firstName}" style="width:100%" label="Imię"/>  
-                            </f:facet>  
-                        </p:cellEditor> 
-                    </p:column>  
+                </p:column>  
 
-                    <p:column headerText="Nazwisko" style="width:24%">  
-                        #{user.lastName}  
-                    </p:column>  
+                <p:column headerText="Nazwisko" style="width:25%">  
+                    #{user.lastName}  
+                </p:column>  
 
-                    <p:column headerText="E-mail" style="width:24%">  
-                        #{user.email}  
-                    </p:column> 
+                <p:column headerText="E-mail" style="width:34%">  
+                    #{user.email}  
+                </p:column> 
 
-                    <p:column headerText="editor" style="width:24%">  
-                        <p:rowEditor/> 
-                    </p:column> 
-                </p:dataTable>
+                <p:column headerText="Edytuj" style="width:24%">  
+                    <p:commandButton id="editUserButton" icon="ui-icon-pencil" update=":editUserForm:editPanel"  
+                                     actionListener="#{userController.prepareUserToAction()}" onclick="editDlg.show();" style="height: 35px; background: none;border: none;">
+                        <f:param name="userId" value="#{user.userId}"/>
+                    </p:commandButton>
 
-                <h:form id="addUserForm"> 
-                    <p:commandButton id="addUserButton" type="button" value="Add User" onclick="dlg.show();" ajax="false"/>  
+                </p:column> 
 
-                    <p:dialog header="Wprowadź dane" widgetVar="dlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold">  
+                <p:column headerText="Usuń" style="width:24%">  
+                    <p:commandButton id="deleteUserButton" icon="ui-icon-closethick"   
+                                     actionListener="#{userController.prepareUserToAction()}" onclick="confirmDlg.show();" style="height: 35px">
+                        <f:param name="userId" value="#{user.userId}"/>
+                    </p:commandButton>
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="addUserForm" style="width: 880px; margin: 0px auto"> 
+            <p:commandButton id="addUserButton" type="button" value="Add User" onclick="dlg.show();" ajax="false"/>  
+
+            <p:dialog header="Wprowadź dane" widgetVar="dlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold">  
 
 
-                        <h:panelGrid columns="2" style="margin-bottom:10px">  
-                            <h:outputLabel for="firstname" value="Imię:" />  
-                            <p:inputText id="firstname" value="#{userController.entityUser.firstName}" required="true" 
-                                         requiredMessage="Podaj imię"/>  
-                            <h:outputLabel for="lastname" value="Nazwisko:" />  
-                            <p:inputText id="lastname" value="#{userController.entityUser.lastName}" required="true" 
-                                         requiredMessage="Podaj nazwisko"/> 
-                            <h:outputLabel for="login" value="Login:" />  
-                            <p:inputText id="login" value="#{userController.entityUser.login}" required="true" 
-                                         requiredMessage="Podaj login"/> 
-                            <h:outputLabel for="password" value="Hasło:" />  
-                            <p:inputText id="password" value="#{userController.entityUser.password}" required="true" 
-                                         requiredMessage="Podaj hasło"/> 
-                            <h:outputLabel for="licence" value="Rola:" />
-                            <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}">   
-                                <f:selectItem itemLabel="administrator" itemValue="administrator" />  
-                                <f:selectItem itemLabel="student" itemValue="student" />  
-                                <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
-                            </p:selectOneMenu>
-                        </h:panelGrid>  
+                <h:panelGrid columns="2" style="margin-bottom:10px">  
+                    <h:outputLabel for="firstname" value="Imię:" />  
+                    <p:inputText id="firstname" value="#{userController.entityUser.firstName}" required="true" 
+                                 requiredMessage="Podaj imię" />  
+                    <h:outputLabel for="lastname" value="Nazwisko:" />  
+                    <p:inputText id="lastname" value="#{userController.entityUser.lastName}" required="true" 
+                                 requiredMessage="Podaj nazwisko"/> 
+                    <h:outputLabel for="login" value="Login:" />  
+                    <p:inputText id="login" value="#{userController.entityUser.login}" required="true" 
+                                 requiredMessage="Podaj login"/> 
+                    <h:outputLabel for="password" value="Hasło:" />  
+                    <p:inputText id="password" value="#{userController.entityUser.password}" required="true" 
+                                 requiredMessage="Podaj hasło"/> 
+                    <h:outputLabel for="licence" value="Rola:" />
+                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}" onchange="hideOrShow();">   
+                        <f:selectItem itemLabel="administrator" itemValue="administrator" />  
+                        <f:selectItem itemLabel="student" itemValue="student" />  
+                        <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
+                    </p:selectOneMenu>
+                </h:panelGrid>  
 
-                        <p:commandButton id="submitButton" value="Submit" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.saveUser()}"/>  
-                    </p:dialog>
-                </h:form>
-            </h:form>
+                <p:commandButton id="submitButton" value="Submit" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.saveUser()}"/>  
+            </p:dialog>
+        </h:form>
+
+        <h:form id="editUserForm"> 
+            <p:dialog header="Edycja danych" widgetVar="editDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold">  
+
+
+                <h:panelGrid id="editPanel" columns="2" style="margin-bottom:10px">  
+                    <h:outputLabel for="firstnameEdit" value="Imię:"/>  
+                    <p:inputText id="firstnameEdit" value="#{userController.preparedUser.firstName}" required="true" 
+                                 requiredMessage="Podaj imię"/> 
+                    <h:outputLabel for="lastnameEdit" value="Nazwisko:" />  
+                    <p:inputText id="lastnameEdit" value="#{userController.preparedUser.lastName}" required="true" 
+                                 requiredMessage="Podaj nazwisko"/> 
+                    <h:outputLabel for="loginEdit" value="Login:" />  
+                    <p:inputText id="loginEdit" value="#{userController.preparedUser.login}" required="true" 
+                                 requiredMessage="Podaj login"/> 
+                    <h:outputLabel for="passwordEdit" value="Hasło:" />  
+                    <p:inputText id="passwordEdit" value="#{userController.preparedUser.password}" required="true" 
+                                 requiredMessage="Podaj hasło"/> 
+                    <h:outputLabel for="licenceEdit" value="Rola:" />
+                    <p:selectOneMenu id="licenceEdit" value="#{userController.preparedUser.licence}">   
+                        <f:selectItem itemLabel="administrator" itemValue="administrator" />  
+                        <f:selectItem itemLabel="student" itemValue="student" />  
+                        <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
+                    </p:selectOneMenu>
+
+                </h:panelGrid>  
+
+                <p:commandButton id="updateButton" value="Aktualizuj" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.updateOneUser()}"/>  
+            </p:dialog>
+        </h:form>
+
+        <h:form id="deleteForm">
+            <p:confirmDialog message="Czy jesteś pewnien" closable="false"
+                             header="Potwierdzenie" severity="alert" widgetVar="confirmDlg">
+                <p:commandButton value="Tak" oncomplete="confirmDlg.hide()" action="#{userController.deleteOneUser()}"  update=":tableForm2:multiUsers"/>
+                <p:commandButton value="Nie" onclick="confirmDlg.hide();" type="button" />
+            </p:confirmDialog>
         </h:form>
     </h:body>
 </html>
