@@ -63,7 +63,7 @@ public class ThesisService implements IThesisService {
 
         
         //Query query = session.createQuery("select thesis.thesisId, thesis.title, thesis.users.firstName, thesis.users.lastName, thesis.description from Thesis thesis");
-        Query query = session.createQuery("select thesis from Thesis thesis where thesis.users.userId=:userIds and thesis.confirmed=true").setLong("userIds", userIds);
+        Query query = session.createQuery("select thesis from Thesis thesis where thesis.users.userId=:userIds and thesis.confirmed=true and (thesis.reserved=null or thesis.reserved=false)").setLong("userIds", userIds);
 
         
         teacherThesisList = query.list();
@@ -102,5 +102,8 @@ public class ThesisService implements IThesisService {
         session.getTransaction().commit();
         session.close();
         HibernateUtil.getSessionFactory().close();
+        FacesMessage msg = null;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tematy potwiedzone ", null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

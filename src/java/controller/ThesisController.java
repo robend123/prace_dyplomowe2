@@ -9,9 +9,11 @@ import entity.Thesis;
 import entity.Users;
 import hibernate.HibernateUtil;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,7 +25,7 @@ import service.ThesisService;
  * @author Robson
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class ThesisController {
 
     private Thesis thesis = new Thesis();
@@ -32,6 +34,15 @@ public class ThesisController {
     private LoginController loginController = new LoginController();
     private List<Thesis> selectedThesis= new ArrayList<Thesis>();
     private Thesis thesisToDisplay = new Thesis();
+    private List<Thesis> filteredThesis ;
+
+    public List<Thesis> getFilteredThesis() {
+        return filteredThesis;
+    }
+
+    public void setFilteredThesis(List<Thesis> filteredThesis) {
+        this.filteredThesis = filteredThesis;
+    }
 
     public Thesis getThesisToDisplay() {
         return thesisToDisplay;
@@ -77,6 +88,7 @@ public class ThesisController {
      * Creates a new instance of ThesisController
      */
     public ThesisController() {
+       
     }
     
     public void saveThesis(){

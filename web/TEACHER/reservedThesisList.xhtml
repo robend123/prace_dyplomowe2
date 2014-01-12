@@ -55,7 +55,7 @@
                     </p:submenu>
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
-                    
+
                     <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
@@ -65,33 +65,36 @@
                 </p:menubar>
             </p:panel>
         </h:form>
-        <h:form id="tableForm2" style="width: 880px; margin: 0px auto">
+        <h:form id="tableForm" style="width: 880px; margin: 0px auto">
 
 
-            <p:dataTable id="multiUsers" var="thesis" value="#{thesisController.createConfirmedTeacherThesisList()}" 
-                         paginator="true" rows="6"  
-                         rowKey="#{thesis.thesisId}"    selection="#{thesisController.selectedThesis}">  
+            <p:dataTable id="reservedThesisTable" var="thesisReservation" 
+                         value="#{reservationController.createReservedThesisList()}">  
 
                 <f:facet name="header">  
-                    Moje tematy
-                </f:facet>  
-                <p:column selectionMode="multiple" style="width:2%" />  
+                    Zarezerwowane tematy
+                </f:facet> 
 
-                <p:column headerText="ID" style="width:10%;">  
-                    #{thesis.thesisId}  
-                </p:column>  
                 <p:column headerText="Opis" style="width:24%">  
-                    <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":tableForm2:description"  
+                    <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":tableForm:description"  
                                      actionListener="#{thesisController.setDescription()}" onclick="descriptionDialog.show();" style="height: 35px">
-                        <f:param name="thesisId" value="#{thesis.thesisId}"/>
+                        <f:param name="thesisId" value="#{thesisReservation.thesis.thesisId}"/>
                     </p:commandButton>
 
                 </p:column>
-                <p:column headerText="Rezerwacje" style="width:24%">  
-                    <p:commandButton id="reservButton" value="Rezerwuj" icon="ui-icon-info"   
-                                     onclick="reservDialog.show();" style="height: 35px"
-                                     actionListener="#{reservationController.setThesisForReservation()}">
-                        <f:param name="thesisId" value="#{thesis.thesisId}"/>
+                <p:column headerText="Student" style="width:24%">  
+                    #{thesisReservation.users.firstName} #{thesisReservation.users.lastName}
+                </p:column>
+                <p:column style="width: 24%">
+                    <p:commandButton id="calendarButton" value="Ustal termin Obrony" icon="ui-icon-info"  
+                                     onclick="calendarDialog.show();" style="height: 35px">
+                    </p:commandButton>
+                </p:column>
+
+                <p:column style="width:24%">  
+                    <p:commandButton id="deleteButton" icon="ui-icon-closethick"   
+                                     actionListener="#{reservationController.prepareReservationToAction()}" onclick="confirmDlg.show();" style="height: 35px">
+                        <f:param name="reservationId" value="#{thesisReservation.reservationId}"/>
                     </p:commandButton>
 
                 </p:column>
@@ -104,27 +107,22 @@
 
             </p:dialog>
 
-            <p:dialog id="reservDialog" widgetVar="reservDialog" modal="true" width="300" header="Rezerwacja" resizable="true" hideEffect="fold"
-                      showEffect="scale">
-                <h:outputLabel for="indexNumber" value="Nr albumu studenta: "/>
-                <p:inputText id="indexNumber" value="#{reservationController.indexNumber}" required="true"
-                             requiredMessage="Podaj numer albumu" label="indexNumber"/>
+            <p:dialog id="calendarDialog" width="300" header="Obrona" widgetVar="calendarDialog"
+                      modal="true" resizable="true" showEffect="scale" hideEffect="fold">
 
-                <p:commandButton id="nextButton" value="Dalej" onclick="reservDialog.hide();" action="#{reservationController.findUserByIndexNumber()}" oncomplete="reservConfirmationDialog.show();" update=":tableForm2:reservConfirmationDialog"/>
-                <p:commandButton id="cancelButton" value="Anuluj" onclick="reservDialog.hide();"/>
+                <h:outputText value="Obrona"/>
+                <p:calendar effect="slideDown" locale="pl" lang="pl"/>
+
 
             </p:dialog>
-
-            <p:confirmDialog id="reservConfirmationDialog" message="Potwierdź rezerwację dla : #{reservationController.user.firstName} #{reservationController.user.lastName}" closable="false"
-                             header="Potwierdzenie" severity="info" widgetVar="reservConfirmationDialog">
-
-
-                <p:commandButton value="Tak" oncomplete="reservConfirmationDialog.hide()" action="#{reservationController.makeReservation()}" update="tableForm2:multiUsers"/>
-                <p:commandButton value="Nie" onclick="reservConfirmationDialog.hide();" type="button" />
-
-            </p:confirmDialog>
-
+            
            
+            <p:confirmDialog message="Czy jesteś pewnien" closable="false"
+                             header="Potwierdzenie" severity="alert" widgetVar="confirmDlg">
+                <p:commandButton value="Tak" oncomplete="confirmDlg.hide()" action="#{reservationController.cancelReservation()}"  update=":tableForm:reservedThesisTable"/>
+                <p:commandButton value="Nie" onclick="confirmDlg.hide();" type="button" />
+            </p:confirmDialog>
+     
         </h:form>
     </h:body>
 </html>

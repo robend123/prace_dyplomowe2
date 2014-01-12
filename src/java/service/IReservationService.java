@@ -5,6 +5,8 @@
 package service;
 
 import entity.ThesisReservation;
+import entity.Users;
+import java.util.List;
 
 /**
  *
@@ -13,5 +15,7 @@ import entity.ThesisReservation;
 public interface IReservationService {
 
     void makeReservation(ThesisReservation thesisReservation);
-    
+    List<ThesisReservation> createReservedThesisList(Users user);
+    void cancelReservation(ThesisReservation thesisReservation);
+    ThesisReservation prepareReservationToAction();
 }

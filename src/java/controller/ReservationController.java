@@ -7,6 +7,7 @@ package controller;
 import entity.Thesis;
 import entity.ThesisReservation;
 import entity.Users;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
@@ -35,6 +36,7 @@ public class ReservationController {
     private Thesis thesis = new Thesis();
     private IReservationService reservationService = new ReservationService();
     private ThesisReservation reservation = new ThesisReservation();
+    private LoginController loginController = new LoginController();
    
     
     public Thesis getThesis() {
@@ -68,6 +70,18 @@ public class ReservationController {
     public void makeReservation(){
         this.reservation.setThesis(this.thesis);
         this.reservation.setUsers(this.user);
+        this.reservation.getThesis().setReserved(true);
         reservationService.makeReservation(reservation);
+        this.reservation=new ThesisReservation();
+    }
+    public List<ThesisReservation> createReservedThesisList(){
+        return reservationService.createReservedThesisList(loginController.getUser());
+    }
+    public void prepareReservationToAction(){
+        this.reservation=reservationService.prepareReservationToAction();
+    }
+    public void cancelReservation(){
+        reservationService.cancelReservation(reservation);
+        this.reservation=new ThesisReservation();
     }
 }

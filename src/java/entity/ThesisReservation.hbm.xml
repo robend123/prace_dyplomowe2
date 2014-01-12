@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Jan 5, 2014 6:06:06 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="entity.ThesisReservation" table="thesis_reservation" schema="public">
+    <class name="entity.ThesisReservation" table="thesis_reservation" schema="public" lazy="false">
         <id name="reservationId" type="long">
             <column name="reservation_id" />
             <generator class="identity" />

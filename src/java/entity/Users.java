@@ -126,10 +126,6 @@ public class Users  implements java.io.Serializable {
     public void setThesises_1(Set thesises_1) {
         this.thesises_1 = thesises_1;
     }
-
-
-
-
 }
 
 
