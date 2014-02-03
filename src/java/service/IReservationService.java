@@ -18,4 +18,5 @@ public interface IReservationService {
     List<ThesisReservation> createReservedThesisList(Users user);
     void cancelReservation(ThesisReservation thesisReservation);
     ThesisReservation prepareReservationToAction();
+    void setDefenseDate(ThesisReservation thesisReservation);
 }

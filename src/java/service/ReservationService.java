@@ -116,4 +116,20 @@ public class ReservationService implements IReservationService {
 
         return thesisReservation;
     }
+    @Override
+    public void setDefenseDate(ThesisReservation thesisReservation) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        
+        session.update(thesisReservation);
+
+        session.getTransaction().commit();
+        session.close();
+        
+        HibernateUtil.getSessionFactory().close();
+        FacesMessage msg = null;
+        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ustalono termin obrony", null);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+}
 }

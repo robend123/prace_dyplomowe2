@@ -19,6 +19,7 @@
             .szok{
                 font-family: Candara;
             }
+      
         </style>
         <script type="text/javascript">
             function hideOrShow() {
@@ -28,6 +29,32 @@
                     obj.style.display = "none";
                 }
             }
+             PrimeFaces.locales['pl'] = {
+    closeText: 'Zamknij',
+    prevText: 'Poprzedni',
+    nextText: 'Następny',
+    monthNames: ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'],
+    monthNamesShort: ['Sty','Lut','Mar','Kwi','Maj','Cze', 'Lip','Sie','Wrz','Paź','Lis','Gru'],
+    dayNames: ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'],
+    dayNamesShort: ['Nie','Pon','Wt','Śr','Czw','Pt','So'],
+    dayNamesMin: ['N','P','W','Ś','Cz','P','S'],
+    weekHeader: 'Tydzień',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: 'r',
+    timeOnlyTitle: 'Tylko czas',
+    timeText: 'Czas',
+    hourText: 'Godzina',
+    minuteText: 'Minuta',
+    secondText: 'Sekunda',
+    currentText: 'Teraz',
+    ampm: false,
+    month: 'Miesiąc',
+    week: 'Tydzień',
+    day: 'Dzień',
+    allDayText : 'Cały dzień'
+}
 
         </script>
     </h:head>
@@ -87,7 +114,9 @@
                 </p:column>
                 <p:column style="width: 24%">
                     <p:commandButton id="calendarButton" value="Ustal termin Obrony" icon="ui-icon-info"  
-                                     onclick="calendarDialog.show();" style="height: 35px">
+                                     onclick="calendarDialog.show();" actionListener="#{reservationController.prepareReservationToAction()}" 
+                                     style="height: 35px">
+                        <f:param name="reservationId" value="#{thesisReservation.reservationId}"/>
                     </p:commandButton>
                 </p:column>
 
@@ -97,6 +126,10 @@
                         <f:param name="reservationId" value="#{thesisReservation.reservationId}"/>
                     </p:commandButton>
 
+                </p:column>
+                
+                <p:column headerText="Data obrony" style="width:24%">  
+                    #{thesisReservation.defenseDate}
                 </p:column>
             </p:dataTable>
 
@@ -111,9 +144,9 @@
                       modal="true" resizable="true" showEffect="scale" hideEffect="fold">
 
                 <h:outputText value="Obrona"/>
-                <p:calendar effect="slideDown" locale="pl" lang="pl"/>
-
-
+                <p:calendar effect="slideDown"  locale="pl"   value="#{reservationController.reservation.defenseDate}"/>
+                
+                <p:commandButton id="okDefenseDateButton" value="OK" action="#{reservationController.setDefenseDate()}" oncomplete="calendarDialog.hide();" update=":tableForm:reservedThesisTable"/>
             </p:dialog>
             
            

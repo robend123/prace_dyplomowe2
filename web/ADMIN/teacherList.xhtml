@@ -113,7 +113,7 @@
         </h:form>
 
         <h:form id="addUserForm" style="width: 880px; margin: 0px auto"> 
-            <p:commandButton id="addUserButton" type="button" value="Add User" onclick="dlg.show();" ajax="false"/>  
+            <p:commandButton id="addUserButton" type="button" value="Nowy" onclick="dlg.show();" ajax="false"/>  
 
             <p:dialog header="Wprowadź dane" widgetVar="dlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold">  
 
@@ -139,7 +139,7 @@
                     </p:selectOneMenu>
                 </h:panelGrid>  
 
-                <p:commandButton id="submitButton" value="Submit" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.saveUser()}"/>  
+                <p:commandButton id="submitButton" value="Zapisz" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.saveUser()}"/>  
             </p:dialog>
         </h:form>
 

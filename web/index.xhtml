@@ -23,16 +23,16 @@
                          font-family: Candara">
             <h:panelGrid id="panel" columns="2" cellpadding="5" >  
                 <h:outputLabel for="login" value="Login:" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
-                <p:inputText value="#{loginController.user.login}" requiredMessage="Please enter your login"  
+                <p:inputText value="#{loginController.user.login}" requiredMessage="Proszę podać login"  
                              id="login" required="true" label="login" />  
               
                 <h:outputLabel for="password" value="Password:" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
-                <p:password value="#{loginController.user.password}" requiredMessage="Please enter your password"  
+                <p:password value="#{loginController.user.password}" requiredMessage="Proszę podać hasło"  
                             id="password" required="true" label="password" />  
        
 
                 <p:commandButton id="loginButton" value="Zaloguj" 
-                                 action="#{loginController.login()}"
+                                 action="#{loginController.test()}"
                                  ajax="false"
                                  style="font-family: Candara"
                                  />  

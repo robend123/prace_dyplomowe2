@@ -36,6 +36,15 @@ public class ReservationController {
     private Thesis thesis = new Thesis();
     private IReservationService reservationService = new ReservationService();
     private ThesisReservation reservation = new ThesisReservation();
+    
+
+    public ThesisReservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(ThesisReservation reservation) {
+        this.reservation = reservation;
+    }
     private LoginController loginController = new LoginController();
    
     
@@ -82,6 +91,10 @@ public class ReservationController {
     }
     public void cancelReservation(){
         reservationService.cancelReservation(reservation);
+        this.reservation=new ThesisReservation();
+    }
+    public void setDefenseDate(){
+        reservationService.setDefenseDate(reservation);
         this.reservation=new ThesisReservation();
     }
 }

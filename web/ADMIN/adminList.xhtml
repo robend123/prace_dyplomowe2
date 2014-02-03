@@ -113,7 +113,7 @@
         </h:form>
 
         <h:form id="addUserForm" style="width: 880px; margin: 0px auto"> 
-            <p:commandButton id="addUserButton" type="button" value="Add User" onclick="dlg.show();" ajax="false"/>  
+            <p:commandButton id="addUserButton" type="button" value="Nowy" onclick="dlg.show();" ajax="false"/>  
 
             <p:dialog header="Wprowadź dane" widgetVar="dlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold">  
 
@@ -139,7 +139,7 @@
                     </p:selectOneMenu>
                 </h:panelGrid>  
 
-                <p:commandButton id="submitButton" value="Submit" update=":tableForm2:multiUsers"  action="#{userController.saveUser()}" oncomplete="dlg.hide()"/>  
+                <p:commandButton id="submitButton" value="Zapisz" update=":tableForm2:multiUsers"  action="#{userController.saveUser()}" oncomplete="dlg.hide()"/>  
             </p:dialog>
         </h:form>
 
@@ -174,7 +174,7 @@
         </h:form>
 
         <h:form id="deleteForm">
-            <p:confirmDialog message="Czy jesteś pewnien" closable="false"
+            <p:confirmDialog message="Czy jesteś pewien ?" closable="false"
                              header="Potwierdzenie" severity="alert" widgetVar="confirmDlg">
                 <p:commandButton value="Tak" oncomplete="confirmDlg.hide()" action="#{userController.deleteOneUser()}"  update=":tableForm2:multiUsers"/>
                 <p:commandButton value="Nie" onclick="confirmDlg.hide();" type="button" />

@@ -6,7 +6,7 @@
     <class name="entity.Specialization" table="specialization" schema="public" lazy="false">
         <id name="specializationId" type="long">
             <column name="specialization_id" />
-            <generator class="identity" />
+            <generator class="native" />
         </id>
         <property name="degree" type="string">
             <column name="degree" length="16" not-null="true" />
@@ -28,6 +28,15 @@
                 <column name="specialization_id" not-null="true" />
             </key>
             <one-to-many class="entity.Thesis" />
+        </set>
+        <set name="cycles" table="cycle_specialization"
+            inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="specialization_id" not-null="true"/>
+            </key>
+            <many-to-many class="entity.Cycle">
+                <column name="cycle_id"/>
+            </many-to-many>
         </set>
     </class>
 </hibernate-mapping>

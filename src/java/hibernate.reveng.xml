@@ -6,4 +6,5 @@
   <table-filter match-name="thesis"/>
   <table-filter match-name="specialization"/>
   <table-filter match-name="users"/>
+  <table-filter match-name="cycle"/>
 </hibernate-reverse-engineering>

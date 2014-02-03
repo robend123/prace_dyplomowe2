@@ -39,7 +39,7 @@ public class LoginService implements ILoginService {
             if (user.getLicence().equalsIgnoreCase("administrator")) {
                 return "ADMIN\\confirmTheses.xhtml?faces-redirect=true";
             } else if (user.getLicence().equalsIgnoreCase("student")) {
-                return "studentMain.xhtml";
+                return "ADMIN\\confirmTheses.xhtml?faces-redirect=true";
             } else if (user.getLicence().equalsIgnoreCase("nauczyciel")) {
                 return "ADMIN\\confirmTheses.xhtml";
             }

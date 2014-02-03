@@ -7,9 +7,11 @@
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/prace_dyplomowe</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">admin</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping resource="entity/Specialization.hbm.xml"/>
     <mapping resource="entity/Users.hbm.xml"/>
     <mapping resource="entity/ThesisReservation.hbm.xml"/>
     <mapping resource="entity/Thesis.hbm.xml"/>
+    <mapping resource="entity/Cycle.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

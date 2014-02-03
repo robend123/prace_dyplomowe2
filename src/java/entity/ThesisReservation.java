@@ -1,6 +1,9 @@
 package entity;
 // Generated Jan 5, 2014 6:06:06 PM by Hibernate Tools 3.2.1.GA
 
+import java.util.Date;
+
+
 
 
 /**
@@ -12,14 +15,25 @@ public class ThesisReservation  implements java.io.Serializable {
      private long reservationId;
      private Users users;
      private Thesis thesis;
+     private Date defenseDate;
 
-    public ThesisReservation() {
+    public Date getDefenseDate() {
+        return defenseDate;
     }
 
-    public ThesisReservation(long reservationId, Users users, Thesis thesis) {
+    public void setDefenseDate(Date defenseDate) {
+        this.defenseDate = defenseDate;
+    }
+
+    public ThesisReservation() {
+        
+    }
+
+    public ThesisReservation(long reservationId, Users users, Thesis thesis, Date defenseDate) {
        this.reservationId = reservationId;
        this.users = users;
        this.thesis = thesis;
+       this.defenseDate = defenseDate;
     }
    
     public long getReservationId() {

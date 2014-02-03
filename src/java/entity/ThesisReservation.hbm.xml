@@ -14,5 +14,8 @@
         <many-to-one name="thesis" class="entity.Thesis" fetch="select" lazy="false">
             <column name="thesis_id" not-null="true" />
         </many-to-one>
+        <property name="defenseDate" type="java.util.Date">
+            <column name="defense_date" />
+        </property>
     </class>
 </hibernate-mapping>
