@@ -12,28 +12,37 @@ public class Thesis  implements java.io.Serializable {
 
 
      private long thesisId;
-     private Specialization specialization;
+     //private Specialization specialization;
      private Users users;
      private String title;
      private String description;
      private Boolean reserved;
      private Boolean confirmed;
      private Set thesisReservations = new HashSet(0);
+     private Set specializations = new HashSet(0);
+
+    public Set getSpecializations() {
+        return specializations;
+    }
+
+    public void setSpecializations(Set specializations) {
+        this.specializations = specializations;
+    }
 
     public Thesis() {
     }
 
 	
-    public Thesis(long thesisId, Specialization specialization, Users users, String title, String description) {
+    public Thesis(long thesisId, /*Specialization specialization,*/ Users users, String title, String description) {
         this.thesisId = thesisId;
-        this.specialization = specialization;
+        //this.specialization = specialization;
         this.users = users;
         this.title = title;
         this.description = description;
     }
-    public Thesis(long thesisId, Specialization specialization, Users users, String title, String description, Boolean reserved, Boolean confirmed, Set thesisReservations) {
+    public Thesis(long thesisId, /*Specialization specialization,*/ Users users, String title, String description, Boolean reserved, Boolean confirmed, Set thesisReservations) {
        this.thesisId = thesisId;
-       this.specialization = specialization;
+       //this.specialization = specialization;
        this.users = users;
        this.title = title;
        this.description = description;
@@ -49,13 +58,13 @@ public class Thesis  implements java.io.Serializable {
     public void setThesisId(long thesisId) {
         this.thesisId = thesisId;
     }
-    public Specialization getSpecialization() {
-        return this.specialization;
-    }
-    
-    public void setSpecialization(Specialization specialization) {
-        this.specialization = specialization;
-    }
+//    public Specialization getSpecialization() {
+//        return this.specialization;
+//    }
+//    
+//    public void setSpecialization(Specialization specialization) {
+//        this.specialization = specialization;
+//    }
     public Users getUsers() {
         return this.users;
     }

@@ -13,9 +13,18 @@ public class Specialization implements java.io.Serializable {
     private String degree;
     private String name;
     private String process;
-    private Set thesises = new HashSet(0);
-    private Set thesises_1 = new HashSet(0);
+    //private Set thesises = new HashSet(0);
+   // private Set thesises_1 = new HashSet(0);
     private Set cycles = new HashSet(0);
+    private Set manyThesises = new HashSet(0);
+
+    public Set getManyThesises() {
+        return manyThesises;
+    }
+
+    public void setManyThesises(Set manyThesises) {
+        this.manyThesises = manyThesises;
+    }
 
     public Specialization() {
     }
@@ -34,15 +43,7 @@ public class Specialization implements java.io.Serializable {
         this.process = process;
     }
 
-    public Specialization(long specializationId, String degree, String name, String process, Set thesises, Set thesises_1, Set cycles) {
-        this.specializationId = specializationId;
-        this.degree = degree;
-        this.name = name;
-        this.process = process;
-        this.thesises = thesises;
-        this.thesises_1 = thesises_1;
-        this.cycles=cycles;
-    }
+   
 
     public long getSpecializationId() {
         return this.specializationId;
@@ -76,21 +77,15 @@ public class Specialization implements java.io.Serializable {
         this.process = process;
     }
 
-    public Set getThesises() {
-        return this.thesises;
-    }
+//    public Set getThesises() {
+//        return this.thesises;
+//    }
+//
+//    public void setThesises(Set thesises) {
+//        this.thesises = thesises;
+//    }
 
-    public void setThesises(Set thesises) {
-        this.thesises = thesises;
-    }
-
-    public Set getThesises_1() {
-        return this.thesises_1;
-    }
-
-    public void setThesises_1(Set thesises_1) {
-        this.thesises_1 = thesises_1;
-    }
+   
 
     public Set getCycles() {
         return cycles;

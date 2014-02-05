@@ -4,6 +4,7 @@
  */
 package service;
 
+import entity.Cycle;
 import entity.Specialization;
 import hibernate.HibernateUtil;
 import java.util.ArrayList;
@@ -18,20 +19,38 @@ import org.hibernate.Session;
  * @author Robson
  */
 public class SpecializationService implements ISpecializationService {
+
     @Override
-    public List<Specialization> createSpecializationList(){
-        List<Specialization> specializationList=new ArrayList<Specialization>();
-        
+    public List<Specialization> createSpecializationList() {
+        List<Specialization> specializationList = new ArrayList<Specialization>();
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
-       // session.save(user);
+
+        // session.save(user);
         Query query = session.createQuery("from Specialization");
-        specializationList=query.list();
+        specializationList = query.list();
         session.getTransaction().commit();
         session.close();
         HibernateUtil.getSessionFactory().close();
-       
+
+        return specializationList;
+    }
+
+    @Override
+    public List<Specialization> createSpecializationListByCycleId(Cycle cycle) {
+        List<Specialization> specializationList = new ArrayList<Specialization>();
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        // session.save(user);
+        Query query = session.createQuery("select specializations from Cycle cycle where cycle.cycleId=:cycleId").setLong("cycleId", cycle.getCycleId());
+        specializationList = query.list();
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+
         return specializationList;
     }
 }

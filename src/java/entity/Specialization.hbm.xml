@@ -17,18 +17,8 @@
         <property name="process" type="string">
             <column name="process" length="16" not-null="true" />
         </property>
-        <set name="thesises" inverse="true">
-            <key>
-                <column name="specialization_id" not-null="true" />
-            </key>
-            <one-to-many class="entity.Thesis" />
-        </set>
-        <set name="thesises_1" inverse="true">
-            <key>
-                <column name="specialization_id" not-null="true" />
-            </key>
-            <one-to-many class="entity.Thesis" />
-        </set>
+        
+        
         <set name="cycles" table="cycle_specialization"
             inverse="true" lazy="false" fetch="select">
             <key>
@@ -36,6 +26,15 @@
             </key>
             <many-to-many class="entity.Cycle">
                 <column name="cycle_id"/>
+            </many-to-many>
+        </set>
+        <set name="manyThesises" table="thesis_specialization"
+            inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="specialization_id" not-null="true"/>
+            </key>
+            <many-to-many class="entity.Thesis">
+                <column name="thesis_id"/>
             </many-to-many>
         </set>
     </class>

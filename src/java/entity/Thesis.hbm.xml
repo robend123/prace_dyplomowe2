@@ -6,11 +6,9 @@
     <class name="entity.Thesis" table="thesis" schema="public" lazy="false">
         <id name="thesisId" type="long">
             <column name="thesis_id" />
-            <generator class="identity" />
+            <generator class="native" />
         </id>
-        <many-to-one name="specialization" class="entity.Specialization" fetch="select" lazy="false">
-            <column name="specialization_id" not-null="true" />
-        </many-to-one>
+       
         <many-to-one name="users" class="entity.Users" fetch="select" lazy="false">
             <column name="advisor_id" not-null="true" />
         </many-to-one>
@@ -31,6 +29,15 @@
                 <column name="thesis_id" not-null="true" />
             </key>
             <one-to-many class="entity.ThesisReservation" />
+        </set>
+        <set name="specializations" table="thesis_specialization"
+            inverse="false" lazy="false" fetch="select" cascade="all">
+            <key>
+                <column name="thesis_id" not-null="true"/>
+            </key>
+            <many-to-many class="entity.Specialization">
+                <column name="specialization_id"/>
+            </many-to-many>
         </set>
     </class>
 </hibernate-mapping>

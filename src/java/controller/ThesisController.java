@@ -4,20 +4,26 @@
  */
 package controller;
 
+import entity.Cycle;
 import entity.Specialization;
 import entity.Thesis;
 import entity.Users;
 import hibernate.HibernateUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import service.CycleService;
+import service.ISpecializationService;
 import service.IThesisService;
+import service.SpecializationService;
 import service.ThesisService;
 
 /**
@@ -35,6 +41,29 @@ public class ThesisController {
     private List<Thesis> selectedThesis= new ArrayList<Thesis>();
     private Thesis thesisToDisplay = new Thesis();
     private List<Thesis> filteredThesis ;
+    private CycleService cycleService = new CycleService();
+    private Cycle selectedCycle;
+    private ISpecializationService specializationService = new SpecializationService();
+    private List<Specialization> selectedSpecializations = new ArrayList<Specialization>();
+    private Users loggedUser = loginController.getUser();
+
+    public List<Specialization> getSelectedSpecializations() {
+        return selectedSpecializations;
+    }
+
+    public void setSelectedSpecializations(List<Specialization> selectedSpecializations) {
+        this.selectedSpecializations = selectedSpecializations;
+    }
+
+    
+
+    public Cycle getSelectedCycle() {
+        return selectedCycle;
+    }
+
+    public void setSelectedCycle(Cycle selectedCycle) {
+        this.selectedCycle = selectedCycle;
+    }
 
     public List<Thesis> getFilteredThesis() {
         return filteredThesis;
@@ -102,8 +131,8 @@ public class ThesisController {
         session.getTransaction().commit();
         session.close();
         HibernateUtil.getSessionFactory().close();*/
-        this.thesis.setUsers(loginController.getUser());
-        this.thesis.setSpecialization(selectedSpecialization);
+        this.thesis.setUsers(loggedUser);
+        this.thesis.setSpecializations(new HashSet(selectedSpecializations));
         thesisService.saveThesis(thesis);
     }
     public List<Thesis> createUnconfirmedThesisList(){
@@ -118,5 +147,11 @@ public class ThesisController {
     }
     public void confirmThesis(){
         thesisService.confirmThesis(selectedThesis);
+    }
+    public List<Cycle> createAllCyclesList(){
+        return cycleService.createAllCyclesList();
+    }
+    public List<Specialization> createSpecializationListByCycleId(){
+        return specializationService.createSpecializationListByCycleId(selectedCycle);
     }
 }

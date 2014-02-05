@@ -4,6 +4,7 @@
  */
 package service;
 
+import entity.Cycle;
 import entity.Specialization;
 import java.util.List;
 import java.util.Set;
@@ -15,5 +16,5 @@ import java.util.Set;
 public interface ISpecializationService {
 
     List<Specialization> createSpecializationList();
-    
+    List<Specialization> createSpecializationListByCycleId(Cycle cycle);
 }

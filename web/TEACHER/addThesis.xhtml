@@ -37,7 +37,7 @@
             </p:panel>
             <p:panel style=" margin: 0px auto; padding: 0px auto;" >
                 <p:separator style="width: 850px;"/>
-                 <p:menubar style="width: 100%">
+                <p:menubar style="width: 100%">
                     <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
                         <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
@@ -45,7 +45,7 @@
                     </p:submenu>
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
-                    
+
                     <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
@@ -55,45 +55,83 @@
                 </p:menubar>
             </p:panel>
         </h:form>
-            <h:form id="selectForm" style="width: 850px; margin: 0px auto;">
-                <p:dataTable id="specialization" var="specialization" value="#{specializationController.createSpecializationList()}" rowKey="#{specialization.specializationId}"  
-                             selection="#{thesisController.selectedSpecialization}" selectionMode="single" style="font-size: 1em;">  
 
-                    <f:facet name="header">  
-                        Wybierz kierunek dla którego chcesz dodać temat  
-                    </f:facet>  
+        <h:form id="wizardForm" style="width: 850px; margin: 0px auto;">
+            <p:commandButton id="saveThesisButton" value="Zapisz"  action="#{thesisController.saveThesis()}" update=":inf"/>
+            <p:commandButton id="addThesisButton" value="Dodaj"  onclick="wizardDlg.show();"/>
+            <p:dialog header="Dodaj temat" widgetVar="wizardDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="1000">
 
-                    <p:column headerText="ID">  
-                        #{specialization.specializationId}  
-                    </p:column>  
+                <p:tabView dynamic="true">
+                    <p:ajax event="tabChange" update="specializationTable"/>
+                    <p:tab title="Tytuł i opis">
+                        <h:panelGrid id="panel" columns="2" cellpadding="5" >  
+                            <h:outputLabel for="title" value="Tytuł" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
+                            <p:inputText value="#{thesisController.thesis.title}"  
+                                         id="title" />
 
-                    <p:column headerText="Nazwa">  
-                        #{specialization.name}  
-                    </p:column>  
+                            <h:outputLabel for="description" value="Opis" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
+                            <p:inputTextarea cols="100" value="#{thesisController.thesis.description}"  
+                                             id="description"  maxlength="999" autoResize="false" rows="6" />
 
-                    <p:column headerText="Tryb studiów" >  
-                        #{specialization.process}  
-                    </p:column>  
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Cykl">
+                        <p:dataTable id="cyclesTable" var="cycle" value="#{thesisController.createAllCyclesList()}" rowKey="#{cycle.cycleId}"  
+                                     selection="#{thesisController.selectedCycle}" selectionMode="single" style="font-size: 1em;" >  
 
-                    <p:column headerText="Stopień studiów">  
-                        #{specialization.degree}  
-                    </p:column>  
+                            <f:facet name="header">  
+                                Wybierz Cykl  
+                            </f:facet>  
 
-                </p:dataTable> 
+                            <p:column headerText="ID" >  
+                                #{cycle.cycleId}  
+                            </p:column>  
 
-                <h:panelGrid id="panel" columns="2" cellpadding="5" >  
-                    <h:outputLabel for="title" value="Tytuł" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
-                    <p:inputText value="#{thesisController.thesis.title}" requiredMessage="Prosze podać Tytuł"  
-                                 id="title" required="true" label="title" />
+                            <p:column headerText="Nazwa" >  
+                                #{cycle.name}  
+                            </p:column> 
 
-                    <h:outputLabel for="description" value="Opis" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
-                    <p:inputTextarea cols="100" value="#{thesisController.thesis.description}" requiredMessage="Prosze wpisać opis"  
-                                     id="desription" required="true" label="description" maxlength="999" autoResize="false" rows="6" />
 
-                </h:panelGrid>
-                <p:commandButton id="saveThesisButton" value="Zapisz"  action="#{thesisController.saveThesis()}" update=":inf"/>
-            </h:form>
-        
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab title="Kierunki">
+                        <p:dataTable id="specializationTable" var="specialization1" value="#{thesisController.createSpecializationListByCycleId()}" rowKey="#{specialization1.specializationId}"  
+                                     selection="#{thesisController.selectedSpecializations}" selectionMode="multiple" style="font-size: 1em;" >  
+
+                            <f:facet name="header">  
+                                Wybierz Kierunki  
+                            </f:facet>  
+
+                            <p:column headerText="ID" >  
+                                #{specialization1.specializationId}  
+                            </p:column>  
+
+                            <p:column headerText="Nazwa" >  
+                                #{specialization1.name}  
+                            </p:column>
+
+                            <p:column headerText="Stopień studiów" >  
+                                #{specialization1.degree}  
+                            </p:column>
+
+                            <p:column headerText="Tryb" >  
+                                #{specialization1.process}  
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton id="saveThesisBtn" value="Zapisz"  action="#{thesisController.saveThesis()}" update=":inf"/>
+                    </p:tab>
+                </p:tabView>
+            </p:dialog>
+        </h:form>
+        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:10px;bottom:10px">  
+            <f:facet name="start">  
+                <p:graphicImage value="/images/busy.gif" />  
+            </f:facet>  
+
+            <f:facet name="complete">  
+                <h:outputText value="" />  
+            </f:facet>  
+        </p:ajaxStatus>  
     </h:body>
 </html>
 
