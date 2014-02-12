@@ -47,6 +47,14 @@ public class ThesisController {
     private List<Specialization> selectedSpecializations = new ArrayList<Specialization>();
     private Users loggedUser = loginController.getUser();
 
+    public Users getLoggedUser() {
+        return loggedUser;
+    }
+
+    public void setLoggedUser(Users loggedUser) {
+        this.loggedUser = loggedUser;
+    }
+
     public List<Specialization> getSelectedSpecializations() {
         return selectedSpecializations;
     }

@@ -27,7 +27,7 @@ public class UserController {
 
     private Users entityUser = new Users();
     private IUserCRUDService userCRUD = new UserCRUDService();
-    private List<Users> administratorsList = new ArrayList<Users>();
+   // private List<Users> administratorsList = new ArrayList<Users>();
     private Users[] selectedUsers;
     private Users preparedUser = new Users();
     //private Users userToDelete = new Users();
@@ -70,14 +70,14 @@ public class UserController {
         this.selectedUsers = selectedUsers;
     }
 
-    public List<Users> getAdministratorsList() {
-        this.administratorsList = userCRUD.findAllAdministrators();
-        return administratorsList;
-    }
-
-    public void setAdministratorsList(List<Users> administratorsList) {
-        this.administratorsList = administratorsList;
-    }
+//    public List<Users> getAdministratorsList() {
+//        this.administratorsList = userCRUD.findAllAdministrators();
+//        return administratorsList;
+//    }
+//
+//    public void setAdministratorsList(List<Users> administratorsList) {
+//        this.administratorsList = administratorsList;
+//    }
 
     public void saveUser() {
         userCRUD.saveUser(entityUser);
@@ -92,6 +92,9 @@ public class UserController {
     }
     public List<Users> makeTeachersList(){
         return userCRUD.findAllTeachers();
+    }
+    public List<Users> makeAdministratorList(){
+        return userCRUD.findAllAdministrators();
     }
     
     public void prepareUserToAction(){

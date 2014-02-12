@@ -4,6 +4,7 @@
  */
 package service;
 
+import entity.CurrentPlan;
 import entity.Users;
 import hibernate.HibernateUtil;
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class UserCRUDService implements IUserCRUDService {
 
     @Override
     public void saveUser(Users user) {
+        CurrentPlan cr=new CurrentPlan();
+        user.setCurrentPlan(cr);
+        cr.setUser(user);
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
@@ -109,12 +114,13 @@ public class UserCRUDService implements IUserCRUDService {
     }
 
     @Override
-    public Users findUserByIndexNumber(long indexNumber) {
+    public Users findUserByAlbumNumber(long albumNumber) {
         Users user = new Users();
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         
-        user= (Users) session.load(Users.class,indexNumber);
+        Query query=session.createQuery("select user from Users user where user.albumNumber=:albumNumber").setLong("albumNumber", albumNumber);
+        user=(Users) query.uniqueResult();//(Users) session.load(Users.class,albumNumber);
         
         session.getTransaction().commit();
         session.close();

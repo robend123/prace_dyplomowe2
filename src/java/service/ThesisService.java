@@ -22,11 +22,14 @@ import org.hibernate.Session;
 public class ThesisService implements IThesisService {
     @Override
     public void saveThesis(Thesis thesis){
+        Users user= thesis.getUsers();
+        user.getCurrentPlan().setReportedThesises(user.getCurrentPlan().getReportedThesises()+1);
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
        
         session.save(thesis);
-
+        session.update(user);
+        
         session.getTransaction().commit();
         session.close();
         HibernateUtil.getSessionFactory().close();
@@ -91,13 +94,18 @@ public class ThesisService implements IThesisService {
     @Override
     public void confirmThesis(List<Thesis> selectedThesis){
       //  List<Thesis> unconfirmedThesisList = new ArrayList<Thesis>();
+        Users users= new Users();
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
         // session.save(user);
         for(Thesis thesis: selectedThesis){
             thesis.setConfirmed(true);
+            
             session.update(thesis);
+            users=thesis.getUsers();
+            users.getCurrentPlan().setConfirmedThesises(users.getCurrentPlan().getConfirmedThesises()+1);
+            session.update(users);
         }
         session.getTransaction().commit();
         session.close();

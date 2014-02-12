@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="entity.CurrentPlan" table="current_plan" lazy="false">
+      <id name="advisorId" type="long">
+            <column name="advisor_id" />
+            <generator class="foreign">
+                <param name="property">user</param>
+            </generator>
+        </id>
+        <property name="thesisLimit" type="java.lang.Integer">
+            <column name="thesis_limit" />
+        </property>
+        <property name="reportedThesises" type="java.lang.Integer">
+            <column name="reported_thesises" />
+        </property>
+        <property name="confirmedThesises" type="java.lang.Integer">
+            <column name="confirmed_thesises" />
+        </property>
+        <one-to-one name="user" class="entity.Users"
+            constrained="true"></one-to-one>
+  </class>
+</hibernate-mapping>

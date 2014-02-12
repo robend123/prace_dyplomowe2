@@ -17,8 +17,9 @@ public class Users  implements java.io.Serializable {
      private String licence;
      private String firstName;
      private String lastName;
-     private Integer maxThesis;
+     private long albumNumber;
      private String email;
+     private CurrentPlan currentPlan;
      private Set thesisReservations = new HashSet(0);
      private Set thesises = new HashSet(0);
      private Set thesises_1 = new HashSet(0);
@@ -35,14 +36,14 @@ public class Users  implements java.io.Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    public Users(long userId, String login, String password, String licence, String firstName, String lastName, Integer maxThesis, String email, Set thesisReservations, Set thesises, Set thesises_1) {
+    public Users(long userId, String login, String password, String licence, String firstName, String lastName, long albumNumber, String email, Set thesisReservations, Set thesises, Set thesises_1) {
        this.userId = userId;
        this.login = login;
        this.password = password;
        this.licence = licence;
        this.firstName = firstName;
        this.lastName = lastName;
-       this.maxThesis = maxThesis;
+       this.albumNumber = albumNumber;
        this.email = email;
        this.thesisReservations = thesisReservations;
        this.thesises = thesises;
@@ -91,12 +92,12 @@ public class Users  implements java.io.Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public Integer getMaxThesis() {
-        return this.maxThesis;
+    public long getAlbumNumber() {
+        return this.albumNumber;
     }
     
-    public void setMaxThesis(Integer maxThesis) {
-        this.maxThesis = maxThesis;
+    public void setAlbumNumber(long albumNumber) {
+        this.albumNumber = albumNumber;
     }
     public String getEmail() {
         return this.email;
@@ -125,6 +126,13 @@ public class Users  implements java.io.Serializable {
     
     public void setThesises_1(Set thesises_1) {
         this.thesises_1 = thesises_1;
+    }
+    public CurrentPlan getCurrentPlan() {
+        return currentPlan;
+    }
+
+    public void setCurrentPlan(CurrentPlan currentPlan) {
+        this.currentPlan = currentPlan;
     }
 }
 

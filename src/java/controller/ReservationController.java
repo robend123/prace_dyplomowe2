@@ -29,7 +29,7 @@ public class ReservationController {
     /**
      * Creates a new instance of ReservationController
      */
-    private long indexNumber;
+    private long albumNumber;
     private Users user= new Users();
     private IUserCRUDService userCRUD = new UserCRUDService();
     private IThesisService thesisService = new ThesisService();
@@ -61,17 +61,17 @@ public class ReservationController {
         this.user = user;
     }
     
-    public long getIndexNumber() {
-        return indexNumber;
+    public long getAlbumNumber() {
+        return albumNumber;
     }
 
-    public void setIndexNumber(long indexNumber) {
-        this.indexNumber = indexNumber;
+    public void setAlbumNumber(long albumNumber) {
+        this.albumNumber = albumNumber;
     }
     public ReservationController() {
     }
-    public void findUserByIndexNumber(){
-        this.user=userCRUD.findUserByIndexNumber(indexNumber);
+    public void findUserByAlbumNumber(){
+        this.user=userCRUD.findUserByAlbumNumber(albumNumber);
     }
     public void setThesisForReservation(){
         this.thesis=thesisService.setDescription();

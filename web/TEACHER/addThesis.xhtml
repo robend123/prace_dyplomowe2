@@ -22,7 +22,7 @@
         </style>
     </h:head>
     <h:body>
-        <p:growl id="inf" showDetail="false"/>
+        <p:growl id="inf" showDetail="false" autoUpdate="true"/>
         <h:form id="page" style="width: 880px ;margin: 0px auto;">
             <p:panel style="height: 140px;" id="header">
                 <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
@@ -55,9 +55,23 @@
                 </p:menubar>
             </p:panel>
         </h:form>
+        <h:form id="currentPlanForm" style="width: 850px; margin: 0px 600px;">
+            <p:panelGrid id="currentPlanPanel" columns="2">  
+                <f:facet name="header">  
+                    Bieżący Plan  
+                </f:facet>  
 
+                <h:outputText value="Limit rezerwacji: " />  
+                <h:outputText id="limit" value="#{thesisController.loggedUser.currentPlan.thesisLimit}"/>  
+                <h:outputText value="Zgłoszonych tematów " />  
+                <h:outputText id="reportedThesises" value="#{thesisController.loggedUser.currentPlan.reportedThesises}"/>
+                <h:outputText value="Zatwierdzonych tematów " />  
+                <h:outputText id="confirmedThesises" value="#{thesisController.loggedUser.currentPlan.confirmedThesises}"/>
+                 
+            </p:panelGrid>  
+        </h:form>
         <h:form id="wizardForm" style="width: 850px; margin: 0px auto;">
-            <p:commandButton id="saveThesisButton" value="Zapisz"  action="#{thesisController.saveThesis()}" update=":inf"/>
+            <p:commandButton id="saveThesisButton" value="Zapisz"   update=":currentPlanForm:currentPlanPanel"/>
             <p:commandButton id="addThesisButton" value="Dodaj"  onclick="wizardDlg.show();"/>
             <p:dialog header="Dodaj temat" widgetVar="wizardDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="1000">
 
@@ -118,7 +132,7 @@
                                 #{specialization1.process}  
                             </p:column>
                         </p:dataTable>
-                        <p:commandButton id="saveThesisBtn" value="Zapisz"  action="#{thesisController.saveThesis()}" update=":inf"/>
+                        <p:commandButton id="saveThesisBtn" value="Zapisz"  action="#{thesisController.saveThesis()}"  oncomplete="wizardDlg.hide();" update=":currentPlanForm:currentPlanPanel"/>
                     </p:tab>
                 </p:tabView>
             </p:dialog>

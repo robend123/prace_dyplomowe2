@@ -109,11 +109,11 @@
 
             <p:dialog id="reservDialog" widgetVar="reservDialog" modal="true" width="300" header="Rezerwacja" resizable="true" hideEffect="fold"
                       showEffect="scale">
-                <h:outputLabel for="indexNumber" value="Nr albumu studenta: "/>
-                <p:inputText id="indexNumber" value="#{reservationController.indexNumber}" required="true"
-                             requiredMessage="Podaj numer albumu" label="indexNumber"/>
+                <h:outputLabel for="albumNumber" value="Nr albumu studenta: "/>
+                <p:inputText id="albumNumber" value="#{reservationController.albumNumber}" required="true"
+                             requiredMessage="Podaj numer albumu" label="albumNumber"/>
 
-                <p:commandButton id="nextButton" value="Dalej" onclick="reservDialog.hide();" action="#{reservationController.findUserByIndexNumber()}" oncomplete="reservConfirmationDialog.show();" update=":tableForm2:reservConfirmationDialog"/>
+                <p:commandButton id="nextButton" value="Dalej" onclick="reservDialog.hide();" action="#{reservationController.findUserByAlbumNumber()}" oncomplete="reservConfirmationDialog.show();" update=":tableForm2:reservConfirmationDialog"/>
                 <p:commandButton id="cancelButton" value="Anuluj" onclick="reservDialog.hide();"/>
 
             </p:dialog>

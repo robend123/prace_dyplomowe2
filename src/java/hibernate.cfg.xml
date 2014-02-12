@@ -13,5 +13,6 @@
     <mapping resource="entity/ThesisReservation.hbm.xml"/>
     <mapping resource="entity/Thesis.hbm.xml"/>
     <mapping resource="entity/Cycle.hbm.xml"/>
+    <mapping resource="entity/CurrentPlan.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

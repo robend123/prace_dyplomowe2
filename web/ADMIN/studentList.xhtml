@@ -55,7 +55,7 @@
                     </p:submenu>
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
-                    
+
                     <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
@@ -130,9 +130,12 @@
                                  requiredMessage="Podaj login"/> 
                     <h:outputLabel for="password" value="Hasło:" />  
                     <p:inputText id="password" value="#{userController.entityUser.password}" required="true" 
-                                 requiredMessage="Podaj hasło"/> 
+                                 requiredMessage="Podaj hasło"/>
+                    <h:outputLabel for="albumNumber" value="Nr albumu: "/>
+                    <p:inputText id="albumNumber" value="#{userController.entityUser.albumNumber}" required="true"
+                                 requiredMessage="Podaj numer albumu" label="albumNumber"/>
                     <h:outputLabel for="licence" value="Rola:" />
-                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}" onchange="hideOrShow();">   
+                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}">   
                         <f:selectItem itemLabel="administrator" itemValue="administrator" />  
                         <f:selectItem itemLabel="student" itemValue="student" />  
                         <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  

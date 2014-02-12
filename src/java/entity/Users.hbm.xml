@@ -23,12 +23,15 @@
         <property name="lastName" type="string">
             <column name="last_name" length="32" not-null="true" />
         </property>
-        <property name="maxThesis" type="java.lang.Integer">
-            <column name="max_thesis" />
+        <property name="albumNumber" type="long">
+            <column name="album_number" />
         </property>
         <property name="email" type="string">
             <column name="email" length="32" />
         </property>
+        <one-to-one name="currentPlan" class="entity.CurrentPlan"
+                    cascade="save-update">
+        </one-to-one>
         <set name="thesisReservations" inverse="true">
             <key>
                 <column name="student_id" not-null="true" />

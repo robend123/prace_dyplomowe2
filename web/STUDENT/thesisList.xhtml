@@ -58,15 +58,15 @@
 
         <h:form id="thesisTableForm" style="width: 850px; margin: 0px auto;">
 
-            <p:dataTable id="thesisTable" var="thesis" value="#{thesisController.createUnconfirmedThesisList()}" widgetVar="thesisTable"   
+            <p:dataTable id="thesisTable" var="thesis" value="#{thesisController.createConfirmedTeacherThesisList()}" widgetVar="thesisTable"   
                          emptyMessage="Nie znaleziono tematów spełniających podane kryteria" filteredValue="#{thesisController.filteredThesis}"
                          paginator="true" rows="6" style="font-size : 1em;">  
 
-                <p:column id="degreeColumn" width="2%"   
+            <!--    <p:column id="degreeColumn" width="2%"   
                           headerText="Stopień" 
                           >  
                     <h:outputText value="#{thesis.specialization.degree}" />  
-                </p:column> 
+                </p:column> --> 
 
                 <p:column id="titleColumn" filterBy="#{thesis.title}"   
                           headerText="Tytuł"  
