@@ -8,10 +8,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Facelets Template</title>
+        <title>Dodawanie Tematu</title>
         <style>.ui-panel
             {
                 border: none;
+            }
+            .ui-datatable{
+                font-size: 1.1em;
             }
             .szok{
                 font-family: Candara;
@@ -19,7 +22,7 @@
         </style>
     </h:head>
     <h:body>
-        <p:growl showDetail="false" autoUpdate="true"/>
+        <p:growl id="inf" showDetail="false" autoUpdate="true"/>
         <h:form id="page" style="width: 880px ;margin: 0px auto;">
             <p:panel style="height: 140px;" id="header">
                 <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
@@ -28,13 +31,13 @@
                         <p:spacer height="110px" />
                         <span style="font-family: Candara; font-size: 20px;">Zalogowany jako: #{loginController.user.firstName}  #{loginController.user.lastName}</span>
                         <p:spacer width="10px" />
-                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml?faces-redirect=true"/>
+                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml" ajax="false" immediate="true"/>
                     </div>
                 </p:panel>
             </p:panel>
             <p:panel style=" margin: 0px auto; padding: 0px auto;" >
                 <p:separator style="width: 850px;"/>
-                 <p:menubar style="width: 100%">
+                <p:menubar style="width: 100%">
                     <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
                         <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
@@ -42,8 +45,7 @@
                     </p:submenu>
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
-                    <p:menuitem value=" Kierunki" url="/ADMIN/specList.xhtml" styleClass="szok" icon="ui-icon-check"/>
-                    <p:menuitem value=" Cykle" url="/ADMIN/cycleList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+
                     <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
@@ -52,50 +54,67 @@
 
                 </p:menubar>
             </p:panel>
-            <p:dataTable id="multiUncofirmedThesis" var="thesis" value="#{thesisController.createUnconfirmedThesisList()}" 
-                         rowKey="#{thesis.thesisId}" selection="#{thesisController.selectedThesis}" paginator="true" rows="6"  
-                         style="font-size : 1em;">  
+        </h:form>
+        <h:form id="cycleTableForm" style="width: 850px; margin: 0px auto;">
+            <p:dataTable id="cycleTable" var="cycle" value="#{cycleController.createAllCyclesList()}"  
+                         style="font-size: 1em;" >  
 
                 <f:facet name="header">  
-                    Lista tematów do potwierdzenia  
+                    Cykle  
                 </f:facet>  
 
-                <p:column selectionMode="multiple" style="width:2%" />
-
-                <p:column headerText="Id tematu" style="width:24%">  
-                    #{thesis.thesisId}  
+                <p:column headerText="ID" >  
+                    #{cycle.cycleId}  
                 </p:column>  
 
-                <p:column headerText="Tytuł" style="width:24%">  
-                    #{thesis.title}  
-                </p:column>  
-
-                <p:column headerText="Zgłoszony przez" style="width:24%;">  
-                    #{thesis.users.firstName} #{thesis.users.lastName}
+                <p:column headerText="Nazwa" >  
+                    #{cycle.name}  
                 </p:column>
 
-                <p:column headerText="Opis" style="width:24%">  
-                    <p:commandButton id="DescriptionViewButton" value="Opis" icon="ui-icon-info" update=":page:description"  
-                                     actionListener="#{thesisController.setDescription()}" onclick="descriptionDialog.show();" style="height: 35px">
-                        <f:param name="thesisId" value="#{thesis.thesisId}"/>
-                    </p:commandButton>
-
-                </p:column> 
-                
-                <f:facet name="footer">  
-                    <p:commandButton id="multiViewButton" value="Zatwierdź wybrane" icon="ui-icon-circle-check" update=":page:multiUncofirmedThesis"  
-                                     action="#{thesisController.confirmThesis()}"/>  
-                </f:facet>
             </p:dataTable>
+            <p:commandButton id="addCycleButton" value="Dodaj"  onclick="addCycleDlg.show();"/>
+            <p:dialog header="Dodaj Cykl" widgetVar="addCycleDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="400">
+                <p:dataTable id="specializationTable" var="specialization1" value="#{specializationController.createSpecializationList()}" rowKey="#{specialization1.specializationId}"  
+                             selection="#{cycleController.selectedSpecializations}" selectionMode="multiple" style="font-size: 1em;" >  
 
+                    <f:facet name="header">  
+                        Kierunki  
+                    </f:facet>  
 
+                    <p:column headerText="ID" >  
+                        #{specialization1.specializationId}  
+                    </p:column>  
 
-            <p:dialog id="descriptionDialog" width="300" header="Opis tematu" 
-                      widgetVar="descriptionDialog" resizable="true" hideEffect="fold" showEffect="scale">
+                    <p:column headerText="Nazwa" >  
+                        #{specialization1.name}  
+                    </p:column>
 
-                <h:outputText id="description" value="#{thesisController.thesisToDisplay.description}" />
+                    <p:column headerText="Stopień studiów" >  
+                        #{specialization1.degree}  
+                    </p:column>
 
+                    <p:column headerText="Tryb" >  
+                        #{specialization1.process}  
+                    </p:column>
+                </p:dataTable>
+                <h:outputLabel for="name" value="Nazwa:" />  
+                <p:inputText id="name" value="#{cycleController.cycle.name}"  
+                                 /> 
+                <p:commandButton id="saveCycleButton" value="Zapisz"  action="#{cycleController.saveCycle()}"  oncomplete="addCycleDlg.hide();" update=":cycleTableForm:cycleTable"/>
+                
             </p:dialog>
         </h:form>
+        
+
+        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:10px;bottom:10px">  
+            <f:facet name="start">  
+                <p:graphicImage value="/images/busy.gif" />  
+            </f:facet>  
+
+            <f:facet name="complete">  
+                <h:outputText value="" />  
+            </f:facet>  
+        </p:ajaxStatus>  
     </h:body>
 </html>
+

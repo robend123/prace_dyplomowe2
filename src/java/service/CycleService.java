@@ -15,7 +15,8 @@ import org.hibernate.Session;
  *
  * @author Robson
  */
-public class CycleService {
+public class CycleService implements ICycleService {
+    @Override
      public List<Cycle> createAllCyclesList() {
         List<Cycle> cycles = new ArrayList<Cycle>();
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -32,5 +33,18 @@ public class CycleService {
         HibernateUtil.getSessionFactory().close();
 
         return cycles;
+    }
+    
+    @Override
+    public void saveCycle(Cycle cycle) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        session.save(cycle);
+
+
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
     }
 }

@@ -21,6 +21,32 @@ import org.hibernate.Session;
 public class SpecializationService implements ISpecializationService {
 
     @Override
+    public void saveSpecialization(Specialization specialization) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        session.save(specialization);
+
+
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+    }
+    
+    @Override
+    public void updateSpecialization(Specialization specialization) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        session.update(specialization);
+
+
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+    }
+
+    @Override
     public List<Specialization> createSpecializationList() {
         List<Specialization> specializationList = new ArrayList<Specialization>();
 

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Dodawanie Tematu</title>
+        <style>.ui-panel
+            {
+                border: none;
+            }
+            .ui-datatable{
+                font-size: 1.1em;
+            }
+            .szok{
+                font-family: Candara;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:growl id="inf" showDetail="false" autoUpdate="true"/>
+        <h:form id="page" style="width: 880px ;margin: 0px auto;">
+            <p:panel style="height: 140px;" id="header">
+                <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
+                    <p:graphicImage value="/images/logo2.jpg" style='float: left'/>
+                    <div style="border: none; float: right">
+                        <p:spacer height="110px" />
+                        <span style="font-family: Candara; font-size: 20px;">Zalogowany jako: #{loginController.user.firstName}  #{loginController.user.lastName}</span>
+                        <p:spacer width="10px" />
+                        <p:commandButton id="btn" icon="ui-icon-power" action="/index.xhtml" ajax="false" immediate="true"/>
+                    </div>
+                </p:panel>
+            </p:panel>
+            <p:panel style=" margin: 0px auto; padding: 0px auto;" >
+                <p:separator style="width: 850px;"/>
+                <p:menubar style="width: 100%">
+                    <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
+                        <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
+                        <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
+                        <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
+                    </p:submenu>
+                    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
+                    <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
+
+                    <p:submenu label="Moje tematy" styleClass="szok">
+                        <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
+                        <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
+                    </p:submenu>
+                    <p:menuitem value=" Szukaj tematów" url="/STUDENT/thesisList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+
+                </p:menubar>
+            </p:panel>
+        </h:form>
+        <h:form id="specTableForm" style="width: 850px; margin: 0px auto;">
+            <p:dataTable id="specializationTable" var="specialization1" value="#{specializationController.createSpecializationList()}" rowKey="#{specialization1.specializationId}"  
+                         selection="#{specializationController.selectedSpecialization}" selectionMode="single" style="font-size: 1em;" >  
+
+                <f:facet name="header">  
+                    Kierunki  
+                </f:facet>  
+
+                <p:column headerText="ID" >  
+                    #{specialization1.specializationId}  
+                </p:column>  
+
+                <p:column headerText="Nazwa" >  
+                    #{specialization1.name}  
+                </p:column>
+
+                <p:column headerText="Stopień studiów" >  
+                    #{specialization1.degree}  
+                </p:column>
+
+                <p:column headerText="Tryb" >  
+                    #{specialization1.process}  
+                </p:column>
+                
+                <p:column headerText="Edytuj" style="width:24%">  
+                    <p:commandButton id="editSpecButton" icon="ui-icon-pencil" update=":updateSpecForm:updateSpecPanel"  
+                                     actionListener="#{specializationController.prepareSpecToAction()}" onclick="editSpecDlg.show();" style="height: 35px; background: none;border: none;">
+                        <f:param name="specializationId" value="#{specialization1.specializationId}"/>
+                    </p:commandButton>
+
+                </p:column> 
+
+                <p:column headerText="Usuń" style="width:24%">  
+                    <p:commandButton id="deleteSpecButton" icon="ui-icon-closethick"   
+                                     actionListener="#{specializationController.prepareSpecToAction()}" onclick="confirmDlg.show();" style="height: 35px">
+                        <f:param name="specializationId" value="#{specialization1.specializationId}"/>
+                    </p:commandButton>
+
+                </p:column>
+            </p:dataTable>
+            <p:commandButton id="addSpecButton" value="Dodaj"  onclick="addSpecDlg.show();"/>
+            <p:dialog header="Dodaj Kierunek" widgetVar="addSpecDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="400">
+                <h:panelGrid columns="2" style="margin-bottom:10px">  
+                    <h:outputLabel for="name" value="Nazwa:" />  
+                    <p:inputText id="name" value="#{specializationController.specialization.name}"  
+                                 />  
+                    <h:outputLabel for="degree" value="Stopień:" />  
+                    <p:selectOneMenu id="degree" value="#{specializationController.specialization.degree}">   
+                        <f:selectItem itemLabel="inż" itemValue="inż." />  
+                        <f:selectItem itemLabel="mgr" itemValue="mgr" />  
+                    </p:selectOneMenu>
+                    <h:outputLabel for="process" value="Tryb:" />  
+                    <p:selectOneMenu id="process" value="#{specializationController.specialization.process}">   
+                        <f:selectItem itemLabel="Dzienne" itemValue="Dzienne" />  
+                        <f:selectItem itemLabel="Zaoczne" itemValue="Zaoczne" />  
+                    </p:selectOneMenu>
+                </h:panelGrid> 
+                <p:commandButton id="saveSpecButton" value="Zapisz"  action="#{specializationController.saveSpecialization()}"  oncomplete="addSpecDlg.hide();" update=":specTableForm:specializationTable"/>
+            </p:dialog>
+        </h:form>
+        <h:form id="updateSpecForm">
+            <p:dialog header="Edytuj Kierunek" widgetVar="editSpecDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="400">
+                <h:panelGrid id="updateSpecPanel" columns="2" style="margin-bottom:10px">  
+                    <h:outputLabel for="name" value="Nazwa:" />  
+                    <p:inputText id="name" value="#{specializationController.preparedSpec.name}"  
+                                 />  
+                    <h:outputLabel for="degree" value="Stopień:" />  
+                    <p:selectOneMenu id="degree" value="#{specializationController.preparedSpec.degree}">   
+                        <f:selectItem itemLabel="inż" itemValue="inż." />  
+                        <f:selectItem itemLabel="mgr" itemValue="mgr" />  
+                    </p:selectOneMenu>
+                    <h:outputLabel for="process" value="Tryb:" />  
+                    <p:selectOneMenu id="process" value="#{specializationController.preparedSpec.process}">   
+                        <f:selectItem itemLabel="Dzienne" itemValue="Dzienne" />  
+                        <f:selectItem itemLabel="Zaoczne" itemValue="Zaoczne" />  
+                    </p:selectOneMenu>
+                </h:panelGrid> 
+                <p:commandButton id="editSpecButton" value="Aktualizuj"  action="#{specializationController.updateSpecialization()}"  oncomplete="editSpecDlg.hide();" update=":specTableForm:specializationTable"/>
+            </p:dialog>
+        </h:form>
+
+        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:10px;bottom:10px">  
+            <f:facet name="start">  
+                <p:graphicImage value="/images/busy.gif" />  
+            </f:facet>  
+
+            <f:facet name="complete">  
+                <h:outputText value="" />  
+            </f:facet>  
+        </p:ajaxStatus>  
+    </h:body>
+</html>
+

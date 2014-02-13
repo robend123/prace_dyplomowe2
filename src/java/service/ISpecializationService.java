@@ -14,7 +14,8 @@ import java.util.Set;
  * @author Robson
  */
 public interface ISpecializationService {
-
+    void saveSpecialization(Specialization specialization);
+    void updateSpecialization(Specialization specialization);
     List<Specialization> createSpecializationList();
     List<Specialization> createSpecializationListByCycleId(Cycle cycle);
 }
