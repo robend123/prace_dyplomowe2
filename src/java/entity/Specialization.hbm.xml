@@ -34,7 +34,7 @@
                 <column name="specialization_id" not-null="true"/>
             </key>
             <many-to-many class="entity.Thesis">
-                <column name="thesis_id"/>
+                <column name="thesis_id" not-null="true"/>
             </many-to-many>
         </set>
     </class>

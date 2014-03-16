@@ -7,8 +7,10 @@ package controller;
 import entity.Cycle;
 import entity.Specialization;
 import entity.Thesis;
+import entity.ThesisHistory;
 import entity.Users;
 import hibernate.HibernateUtil;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -46,6 +48,15 @@ public class ThesisController {
     private ISpecializationService specializationService = new SpecializationService();
     private List<Specialization> selectedSpecializations = new ArrayList<Specialization>();
     private Users loggedUser = new Users();
+    private ThesisHistory selectedHistory;
+
+    public ThesisHistory getSelectedHistory() {
+        return selectedHistory;
+    }
+
+    public void setSelectedHistory(ThesisHistory selectedHistory) {
+        this.selectedHistory = selectedHistory;
+    }
 
     public Users getLoggedUser() {
         return loggedUser;
@@ -54,7 +65,7 @@ public class ThesisController {
     public void setLoggedUser(Users loggedUser) {
         this.loggedUser = loggedUser;
     }
-
+    
     public List<Specialization> getSelectedSpecializations() {
         return selectedSpecializations;
     }
@@ -165,5 +176,11 @@ public class ThesisController {
     }
     public List<Thesis> createConfirmedThesisList(){
         return thesisService.createConfirmedThesisList();
+    }
+    public List<ThesisHistory> createThesisHistoryList(){
+        return thesisService.createThesisHistoryList(loginController.getUser());
+    }
+    public void importThesisFromHistory(){
+        thesisService.importThesisFromHistory(thesis);
     }
 }

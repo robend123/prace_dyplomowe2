@@ -115,7 +115,7 @@
             <p:confirmDialog message="Czy jesteś pewien ?" closable="false"
                              header="Potwierdzenie" severity="alert" widgetVar="closeCycleDlg">
                 
-                <p:commandButton value="Tak" oncomplete="closeCycleDlg.hide()" />
+                <p:commandButton value="Tak" oncomplete="closeCycleDlg.hide()" action="#{cycleController.closeCycle()}"/>
                 <p:commandButton value="Nie" onclick="closeCycleDlg.hide();" type="button" />
             </p:confirmDialog>
         </h:form>

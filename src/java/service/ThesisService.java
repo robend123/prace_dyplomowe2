@@ -6,6 +6,7 @@ package service;
 
 import entity.Specialization;
 import entity.Thesis;
+import entity.ThesisHistory;
 import entity.Users;
 import hibernate.HibernateUtil;
 import java.util.ArrayList;
@@ -133,5 +134,40 @@ public class ThesisService implements IThesisService {
         FacesMessage msg = null;
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tematy potwiedzone ", null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    @Override
+    public List<ThesisHistory> createThesisHistoryList(Users user){
+        List<ThesisHistory> list = new ArrayList<ThesisHistory>();
+        long userIds=user.getUserId();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        
+        //Query query = session.createQuery("select thesis.thesisId, thesis.title, thesis.users.firstName, thesis.users.lastName, thesis.description from Thesis thesis");
+        Query query = session.createQuery("select thesisHistory from ThesisHistory thesisHistory where thesisHistory.users.userId=:userIds").setLong("userIds", userIds);
+
+        
+        list = query.list();
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+        
+        return list;
+    }
+    @Override
+    public void importThesisFromHistory(Thesis thesis){
+        ThesisHistory thesisFromHistory = new ThesisHistory();
+        String ids= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("historyId").toString();
+        long id= Long.parseLong(ids);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        thesisFromHistory =(ThesisHistory)session.load(ThesisHistory.class,id);
+        
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+        
+        thesis.setTitle(thesisFromHistory.getTitle());
+        thesis.setDescription(thesisFromHistory.getDescription());
     }
 }

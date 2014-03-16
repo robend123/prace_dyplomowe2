@@ -7,6 +7,7 @@ package controller;
 import entity.Specialization;
 import entity.Users;
 import hibernate.HibernateUtil;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import javax.faces.bean.ManagedBean;

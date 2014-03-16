@@ -38,13 +38,13 @@
             <p:panel style=" margin: 0px auto; padding: 0px auto;" >
                 <p:separator style="width: 850px;"/>
                 <p:menubar style="width: 100%">
-               <!--     <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
-                        <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
-                        <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
-                        <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
-                    </p:submenu> -->
+                    <!--     <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
+                             <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
+                             <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
+                             <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
+                         </p:submenu> -->
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
-                <!--    <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/> -->
+                    <!--    <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/> -->
 
                     <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
@@ -67,17 +67,18 @@
                 <h:outputText id="reportedThesises" value="#{loginController.user.currentPlan.reportedThesises}"/>
                 <h:outputText value="Zatwierdzonych tematów " />  
                 <h:outputText id="confirmedThesises" value="#{loginController.user.currentPlan.confirmedThesises}"/>
-                 
+
             </p:panelGrid>  
         </h:form>
         <h:form id="wizardForm" style="width: 850px; margin: 0px auto;">
             <p:commandButton id="saveThesisButton" value="Zapisz"   update=":currentPlanForm:currentPlanPanel"/>
             <p:commandButton id="addThesisButton" value="Dodaj"  onclick="wizardDlg.show();"/>
-            <p:dialog header="Dodaj temat" widgetVar="wizardDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="1000">
+            <p:commandButton id="importThesisButton" value="Importuj z historii..."   onclick="thesisHistoryDlg.show();"/>
+            <p:dialog id="test" header="Dodaj temat" widgetVar="wizardDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="1000">
 
-                <p:tabView dynamic="true">
+                <p:tabView id ="tabek" dynamic="true">
                     <p:ajax event="tabChange" update="specializationTable"/>
-                    <p:tab title="Tytuł i opis">
+                    <p:tab id="tab1" title="Tytuł i opis">
                         <h:panelGrid id="panel" columns="2" cellpadding="5" >  
                             <h:outputLabel for="title" value="Tytuł" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
                             <p:inputText value="#{thesisController.thesis.title}"  
@@ -85,8 +86,8 @@
 
                             <h:outputLabel for="description" value="Opis" style="font-family: Candara,Verdana,Arial,sans-serif; font-size: 1.1em;"/>  
                             <p:inputTextarea cols="100" value="#{thesisController.thesis.description}"  
-                                             id="description"  maxlength="999" autoResize="false" rows="6" />
-
+                                             id="description"  maxlength="999" autoResize="false" rows="6"/>
+                            
                         </h:panelGrid>
                     </p:tab>
                     <p:tab title="Cykl">
@@ -135,6 +136,35 @@
                         <p:commandButton id="saveThesisBtn" value="Zapisz"  action="#{thesisController.saveThesis()}"  oncomplete="wizardDlg.hide();" update=":currentPlanForm:currentPlanPanel"/>
                     </p:tab>
                 </p:tabView>
+            </p:dialog>
+            <p:dialog header="Twoja historia tematów" widgetVar="thesisHistoryDlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold" width="1000">
+                <p:dataTable id="thesisHistoryTable" var="history" value="#{thesisController.createThesisHistoryList()}" rowKey="#{history.thesisId}"  
+                             selection="#{thesisController.selectedHistory}" selectionMode="single" style="font-size: 1em;" >  
+
+                    <f:facet name="header">  
+                        Wybierz Temat  
+                    </f:facet>  
+
+                    <p:column headerText="ID" >  
+                        #{history.thesisId}
+                    </p:column>  
+
+                    <p:column headerText="Tytuł">  
+                        #{history.title} 
+                    </p:column> 
+
+                    <p:column headerText="Opis">
+                        #{history.description}
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton id="importButton" value="importuj" update=":wizardForm:tabek:panel"
+                                         action="#{thesisController.importThesisFromHistory()}" oncomplete="wizardDlg.show();" onclick="thesisHistoryDlg.hide();" style="height: 35px; background: none;border: none;">
+                            <f:param name="historyId" value="#{history.thesisId}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
             </p:dialog>
         </h:form>
         <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:10px;bottom:10px">  
