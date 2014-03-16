@@ -23,6 +23,15 @@ public class Users  implements java.io.Serializable {
      private Set thesisReservations = new HashSet(0);
      private Set thesises = new HashSet(0);
      private Set thesises_1 = new HashSet(0);
+     private Set thesisHistory = new HashSet(0);
+
+    public Set getThesisHistory() {
+        return thesisHistory;
+    }
+
+    public void setThesisHistory(Set thesisHistory) {
+        this.thesisHistory = thesisHistory;
+    }
 
     public Users() {
     }
@@ -36,7 +45,7 @@ public class Users  implements java.io.Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    public Users(long userId, String login, String password, String licence, String firstName, String lastName, long albumNumber, String email, Set thesisReservations, Set thesises, Set thesises_1) {
+    public Users(long userId, String login, String password, String licence, String firstName, String lastName, long albumNumber, String email, Set thesisReservations, Set thesises, Set thesises_1,Set thesisHistory) {
        this.userId = userId;
        this.login = login;
        this.password = password;
@@ -48,6 +57,7 @@ public class Users  implements java.io.Serializable {
        this.thesisReservations = thesisReservations;
        this.thesises = thesises;
        this.thesises_1 = thesises_1;
+       this.thesisHistory = thesisHistory;
     }
    
     public long getUserId() {

@@ -30,6 +30,24 @@ public class LoginController {
      private ILoginService loginService=new LoginService();
     // public Users loggedUser = new Users();
     // private Users loggedUser = new Users();
+     private String login;
+     private String password;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     public ILoginService getLoginService() {
         return loginService;
     }
@@ -51,7 +69,7 @@ public class LoginController {
     }
      
     public String login(){
-        this.user=loginService.findByLoginAndPassword(user);
+        this.user=loginService.findByLoginAndPassword(login,password);
         if(this.user!=null)//this.loggedUser=this.user; 
             return loginService.login(user);
         else if(user==null) {loginService.setGrowlMessage(); this.user=new Users();}

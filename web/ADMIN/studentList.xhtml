@@ -32,7 +32,7 @@
         </script>
     </h:head>
     <h:body>
-        <p:growl showDetail="false"/>
+        <p:growl showDetail="false" autoUpdate="true"/>
         <h:form id="page" style="width: 880px ;margin: 0px auto;">
             <p:panel style="height: 140px;" id="header">
                 <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
@@ -53,13 +53,14 @@
                         <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
                     </p:submenu>
-                    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
+                <!--    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/> -->
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
-
-                    <p:submenu label="Moje tematy" styleClass="szok">
+                    <p:menuitem value=" Kierunki" url="/ADMIN/specList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                    <p:menuitem value=" Cykle" url="/ADMIN/cycleList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                 <!--   <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
-                    </p:submenu>
+                    </p:submenu> -->
                     <p:menuitem value=" Szukaj tematów" url="/STUDENT/thesisList.xhtml" styleClass="szok" icon="ui-icon-check"/>
 
                 </p:menubar>

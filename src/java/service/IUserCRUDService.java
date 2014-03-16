@@ -19,5 +19,6 @@ public interface IUserCRUDService {
     void saveUser(Users user);
     void updateOneUser(Users userToUpdate);
     Users findUserByAlbumNumber(long albumNumber);
-    public void deleteOneUser(Users preparedUser);
+    void deleteOneUser(Users preparedUser);
+    void setThesisLimit(Users[] users,String pLimit);
 }

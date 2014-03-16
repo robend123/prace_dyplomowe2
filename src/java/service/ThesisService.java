@@ -77,6 +77,26 @@ public class ThesisService implements IThesisService {
         return teacherThesisList;
     }
     @Override
+     public List<Thesis> createConfirmedThesisList() {
+        List<Thesis> thesisList = new ArrayList<Thesis>();
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        
+        //Query query = session.createQuery("select thesis.thesisId, thesis.title, thesis.users.firstName, thesis.users.lastName, thesis.description from Thesis thesis");
+        Query query = session.createQuery("select thesis from Thesis thesis where thesis.confirmed=:confirmed").setBoolean("confirmed", true);
+
+        
+        thesisList = query.list();
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+
+        return thesisList;
+    }
+    
+    @Override
     public Thesis setDescription() {
          Thesis thesisToDisplay = new Thesis();
         String ids= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("thesisId").toString();

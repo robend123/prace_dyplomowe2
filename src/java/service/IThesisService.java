@@ -15,6 +15,7 @@ import java.util.List;
 public interface IThesisService {
 
     void saveThesis(Thesis thesis);
+    List<Thesis> createConfirmedThesisList();
     List<Thesis> createUnconfirmedThesisList();
     List<Thesis> createConfirmedTeacherThesisList(Users user);
     Thesis setDescription();

@@ -43,13 +43,14 @@
                         <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
                     </p:submenu>
-                    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
+                <!--    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/> -->
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
-
-                    <p:submenu label="Moje tematy" styleClass="szok">
+                    <p:menuitem value=" Kierunki" url="/ADMIN/specList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                    <p:menuitem value=" Cykle" url="/ADMIN/cycleList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                 <!--   <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
-                    </p:submenu>
+                    </p:submenu> -->
                     <p:menuitem value=" Szukaj tematów" url="/STUDENT/thesisList.xhtml" styleClass="szok" icon="ui-icon-check"/>
 
                 </p:menubar>
@@ -69,6 +70,13 @@
 
                 <p:column headerText="Nazwa" >  
                     #{cycle.name}  
+                </p:column>
+                <p:column  style="width:24%">  
+                    <p:commandButton id="closeCycleButton" icon="ui-icon-pencil"  
+                                     actionListener="#{cycleController.prepareCycleToAction()}" onclick="closeCycleDlg.show();" style="height: 35px; background: none;border: none;">
+                        <f:param name="cycleId" value="#{cycle.cycleId}"/>
+                    </p:commandButton>
+
                 </p:column>
 
             </p:dataTable>
@@ -103,6 +111,13 @@
                 <p:commandButton id="saveCycleButton" value="Zapisz"  action="#{cycleController.saveCycle()}"  oncomplete="addCycleDlg.hide();" update=":cycleTableForm:cycleTable"/>
                 
             </p:dialog>
+            
+            <p:confirmDialog message="Czy jesteś pewien ?" closable="false"
+                             header="Potwierdzenie" severity="alert" widgetVar="closeCycleDlg">
+                
+                <p:commandButton value="Tak" oncomplete="closeCycleDlg.hide()" />
+                <p:commandButton value="Nie" onclick="closeCycleDlg.hide();" type="button" />
+            </p:confirmDialog>
         </h:form>
         
 

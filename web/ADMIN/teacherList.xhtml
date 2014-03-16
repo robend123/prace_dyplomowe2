@@ -32,7 +32,7 @@
         </script>
     </h:head>
     <h:body>
-        <p:growl showDetail="false"/>
+        <p:growl showDetail="false" autoUpdate="true"/>
         <h:form id="page" style="width: 880px ;margin: 0px auto;">
             <p:panel style="height: 140px;" id="header">
                 <p:panel style="width: 880px; margin: 0px auto; padding: 0px auto; border: none;">
@@ -53,13 +53,14 @@
                         <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
                     </p:submenu>
-                    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
+                <!--    <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/> -->
                     <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
-                    
-                    <p:submenu label="Moje tematy" styleClass="szok">
+                    <p:menuitem value=" Kierunki" url="/ADMIN/specList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                    <p:menuitem value=" Cykle" url="/ADMIN/cycleList.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                 <!--   <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Zarezerwowane" url="/TEACHER/reservedThesisList.xhtml" styleClass="szok"/>
-                    </p:submenu>
+                    </p:submenu> -->
                     <p:menuitem value=" Szukaj tematów" url="/STUDENT/thesisList.xhtml" styleClass="szok" icon="ui-icon-check"/>
 
                 </p:menubar>
@@ -93,6 +94,10 @@
                 <p:column headerText="E-mail" style="width:34%">  
                     #{user.email}  
                 </p:column> 
+                
+                <p:column headerText="Limit prac" style="width: 25%">
+                    #{user.currentPlan.thesisLimit}
+                </p:column> 
 
                 <p:column headerText="Edytuj" style="width:24%">  
                     <p:commandButton id="editUserButton" icon="ui-icon-pencil" update=":editUserForm:editPanel"  
@@ -113,8 +118,9 @@
         </h:form>
 
         <h:form id="addUserForm" style="width: 880px; margin: 0px auto"> 
-            <p:commandButton id="addUserButton" type="button" value="Nowy" onclick="dlg.show();" ajax="false"/>  
-
+            <p:commandButton id="addUserButton" type="button" value="Nowy" onclick="dlg.show();"/>  
+             
+            
             <p:dialog header="Wprowadź dane" widgetVar="dlg" resizable="false" showEffect="scale" modal="true" hideEffect="fold">  
 
 
@@ -132,14 +138,16 @@
                     <p:inputText id="password" value="#{userController.entityUser.password}" required="true" 
                                  requiredMessage="Podaj hasło"/> 
                     <h:outputLabel for="licence" value="Rola:" />
-                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}" onchange="hideOrShow();">   
+                    <p:selectOneMenu id="licence" value="#{userController.entityUser.licence}">   
                         <f:selectItem itemLabel="administrator" itemValue="administrator" />  
                         <f:selectItem itemLabel="student" itemValue="student" />  
                         <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
                     </p:selectOneMenu>
+                   
                 </h:panelGrid>  
 
-                <p:commandButton id="submitButton" value="Zapisz" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.saveUser()}"/>  
+                <p:commandButton id="submitButton" value="Zapisz" update=":tableForm2:multiUsers"  action="#{userController.saveUser()}"/>
+                
             </p:dialog>
         </h:form>
 
@@ -167,9 +175,23 @@
                         <f:selectItem itemLabel="nauczyciel" itemValue="nauczyciel" />  
                     </p:selectOneMenu>
 
+                    <h:outputLabel for="thesisLimit" value="Limit:" />
+                    <p:selectOneMenu id="thesisLimit" value="#{userController.preparedUser.currentPlan.thesisLimit}">   
+                        <f:selectItem itemLabel="0" itemValue="0" />  
+                        <f:selectItem itemLabel="1" itemValue="1" />   
+                        <f:selectItem itemLabel="2" itemValue="2" />
+                        <f:selectItem itemLabel="3" itemValue="3" /> 
+                        <f:selectItem itemLabel="4" itemValue="4" /> 
+                        <f:selectItem itemLabel="5" itemValue="5" /> 
+                        <f:selectItem itemLabel="6" itemValue="6" />
+                        <f:selectItem itemLabel="7" itemValue="7" /> 
+                        <f:selectItem itemLabel="8" itemValue="8" /> 
+                    </p:selectOneMenu>
+                   
                 </h:panelGrid>  
 
-                <p:commandButton id="updateButton" value="Aktualizuj" update=":tableForm2:multiUsers" ajax ="false" action="#{userController.updateOneUser()}"/>  
+                <p:commandButton id="updateButton" value="Aktualizuj" update=":tableForm2:multiUsers" oncomplete="editDlg.hide()" action="#{userController.updateOneUser()}"/>
+                <p:commandButton id="setLimitButton"  value="ustaw" actionListener="#{userController.setThesisLimit()}"/>
             </p:dialog>
         </h:form>
 

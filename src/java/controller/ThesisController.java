@@ -45,7 +45,7 @@ public class ThesisController {
     private Cycle selectedCycle;
     private ISpecializationService specializationService = new SpecializationService();
     private List<Specialization> selectedSpecializations = new ArrayList<Specialization>();
-    private Users loggedUser = loginController.getUser();
+    private Users loggedUser = new Users();
 
     public Users getLoggedUser() {
         return loggedUser;
@@ -139,9 +139,10 @@ public class ThesisController {
         session.getTransaction().commit();
         session.close();
         HibernateUtil.getSessionFactory().close();*/
-        this.thesis.setUsers(loggedUser);
+        this.thesis.setUsers(loginController.getUser());
         this.thesis.setSpecializations(new HashSet(selectedSpecializations));
         thesisService.saveThesis(thesis);
+        thesis=new Thesis();
     }
     public List<Thesis> createUnconfirmedThesisList(){
         return thesisService.createUnconfirmedThesisList();
@@ -161,5 +162,8 @@ public class ThesisController {
     }
     public List<Specialization> createSpecializationListByCycleId(){
         return specializationService.createSpecializationListByCycleId(selectedCycle);
+    }
+    public List<Thesis> createConfirmedThesisList(){
+        return thesisService.createConfirmedThesisList();
     }
 }

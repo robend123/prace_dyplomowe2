@@ -128,4 +128,20 @@ public class UserCRUDService implements IUserCRUDService {
         return user;
         
     }
+    @Override
+    public void setThesisLimit(Users[] users,String pLimit){
+        Integer limit = Integer.parseInt(pLimit);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
+        for(Users user:users){
+         user.getCurrentPlan().setThesisLimit(limit);
+         session.update(user);
+        }
+        
+        session.getTransaction().commit();
+        session.close();
+        HibernateUtil.getSessionFactory().close();
+        
+    }
 }

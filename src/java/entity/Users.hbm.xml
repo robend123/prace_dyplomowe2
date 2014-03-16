@@ -30,7 +30,7 @@
             <column name="email" length="32" />
         </property>
         <one-to-one name="currentPlan" class="entity.CurrentPlan"
-                    cascade="save-update">
+                    cascade="all">
         </one-to-one>
         <set name="thesisReservations" inverse="true">
             <key>
@@ -44,6 +44,14 @@
             </key>
             <one-to-many class="entity.Thesis" />
         </set>
+        <set name="thesisHistory" inverse="true">
+            <key>
+                <column name="advisor_id" not-null="true" />
+            </key>
+            <one-to-many class="entity.ThesisHistory" />
+        </set>
+        
+        
         <set name="thesises_1" inverse="true">
             <key>
                 <column name="advisor_id" not-null="true" />

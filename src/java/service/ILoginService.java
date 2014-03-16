@@ -15,7 +15,7 @@ public interface ILoginService {
     String login(Users user);
 
     void setGrowlMessage();
-    Users findByLoginAndPassword(Users user);
+    Users findByLoginAndPassword(String login, String password);
 
  
     

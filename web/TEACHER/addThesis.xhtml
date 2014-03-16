@@ -38,13 +38,13 @@
             <p:panel style=" margin: 0px auto; padding: 0px auto;" >
                 <p:separator style="width: 850px;"/>
                 <p:menubar style="width: 100%">
-                    <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
+               <!--     <p:submenu label="Użytkownicy" icon="ui-icon-document" styleClass="szok">
                         <p:menuitem value="Administratorzy" url="/ADMIN/adminList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Nauczyciele" url="/ADMIN/teacherList.xhtml" styleClass="szok"/>
                         <p:menuitem value="Studenci" url="/ADMIN/studentList.xhtml" styleClass="szok"/>
-                    </p:submenu>
+                    </p:submenu> -->
                     <p:menuitem value=" Dodaj Temat " url="/TEACHER/addThesis.xhtml" styleClass="szok" icon="ui-icon-plusthick"/>
-                    <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/>
+                <!--    <p:menuitem value=" Potwierdź tematy" url="/ADMIN/confirmTheses.xhtml" styleClass="szok" icon="ui-icon-check"/> -->
 
                     <p:submenu label="Moje tematy" styleClass="szok">
                         <p:menuitem value="Niezarezerwowane" url="/TEACHER/myThesisList.xhtml" styleClass="szok"/>
@@ -62,11 +62,11 @@
                 </f:facet>  
 
                 <h:outputText value="Limit rezerwacji: " />  
-                <h:outputText id="limit" value="#{thesisController.loggedUser.currentPlan.thesisLimit}"/>  
+                <h:outputText id="limit" value="#{loginController.user.currentPlan.thesisLimit}"/>  
                 <h:outputText value="Zgłoszonych tematów " />  
-                <h:outputText id="reportedThesises" value="#{thesisController.loggedUser.currentPlan.reportedThesises}"/>
+                <h:outputText id="reportedThesises" value="#{loginController.user.currentPlan.reportedThesises}"/>
                 <h:outputText value="Zatwierdzonych tematów " />  
-                <h:outputText id="confirmedThesises" value="#{thesisController.loggedUser.currentPlan.confirmedThesises}"/>
+                <h:outputText id="confirmedThesises" value="#{loginController.user.currentPlan.confirmedThesises}"/>
                  
             </p:panelGrid>  
         </h:form>

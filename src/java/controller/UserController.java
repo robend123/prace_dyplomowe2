@@ -31,7 +31,15 @@ public class UserController {
     private Users[] selectedUsers;
     private Users preparedUser = new Users();
     //private Users userToDelete = new Users();
-    
+    private String limit="3";
+
+    public String getLimit() {
+        return limit;
+    }
+
+    public void setLimit(String limit) {
+        this.limit = limit;
+    }
     public Users getPreparedUser() {
         return preparedUser;
     }
@@ -98,6 +106,7 @@ public class UserController {
     }
     
     public void prepareUserToAction(){
+       
         Users user = new Users();
         String ids= FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("userId").toString();
         long id= Long.parseLong(ids);
@@ -114,5 +123,8 @@ public class UserController {
     public void deleteOneUser(){
         userCRUD.deleteOneUser(preparedUser);
         this.preparedUser=new Users();
+    }
+    public void setThesisLimit(){
+        userCRUD.setThesisLimit(selectedUsers, limit);
     }
 }
